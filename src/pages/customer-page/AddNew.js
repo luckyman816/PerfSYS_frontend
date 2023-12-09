@@ -83,7 +83,7 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners }) => {
             <Button variant="contained" color="success" startIcon={<ShoppingBasketIcon />} onClick={handleClickOpen}>
               {t('AddNew')}
             </Button>
-            <ShowAddDialog open={open} handleClickOpen={handleClickOpen} handleClose={handleClose} content={addletter} handleOk={handleOk} />
+            <ShowAddDialog open={open} handleClickOpen={handleClickOpen} handleClose={handleClose} content={t("AddLetter")} handleOk={handleOk} />
           </Grid>
           <Grid item xs={12} md={12} lg={1}>
             <TextField id="outlined-search" label={`${t('EnterOrder')}`} type="search" name="orderPO" value={orderPO} onChange={handleChange}/>

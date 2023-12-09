@@ -28,6 +28,7 @@
     "Apply": "应用",
     "Disline": "脱线",
     "DeleteLetter": "你真的要删除这张订单吗？",
+    "AddLetter" : "你真的要加这个命令吗？",
     "CompleteOrder" : "完整订单",
     "Score" : "得分",
     "1Q" : "不好 - 重拍并延迟 5 天以上",

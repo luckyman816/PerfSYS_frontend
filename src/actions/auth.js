@@ -25,7 +25,6 @@ export const loadUser = () => async (dispatch) => {
 export const getUsers = () => async (dispatch) => {
   try {
     const res = await api.get('/user/all');
-
     dispatch({
       type: GET_USERS,
       payload: res.data

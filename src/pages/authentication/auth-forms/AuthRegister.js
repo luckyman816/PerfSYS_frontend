@@ -74,7 +74,7 @@ const AuthRegister = ({ setAlert, register, isAuthenticated }) => {
     setAlert('Sign up successfully!', 'success');
   };
   if (isAuthenticated) {
-    return <Navigate to="/customerManage" />;
+    return <Navigate to="/login" />;
   }
   const handleChange_l = (e) => setLanguage(e.target.value);
   return (

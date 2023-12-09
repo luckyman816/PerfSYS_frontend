@@ -104,8 +104,8 @@ const Navigation = () => {
         );
     }
   });
-
-  return <Box sx={{ pt: 2 }}>{role_state.role == 'admin' ? navGroups : navGroups1}</Box>;
+  console.log("-------------------role_state.role------------------", role_state)
+  return <Box sx={{ pt: 2 }}>{role_state?.role == 'admin' ? navGroups : navGroups1}</Box>;
 };
 
 export default Navigation;

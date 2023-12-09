@@ -28,6 +28,7 @@
     "Apply": "apply",
     "Disline": "disline",
     "DeleteLetter": "Do you really delete this order?",
+    "AddLetter" : "Do you really add this order?",
     "CompleteOrder" : "Complete Order",
     "Score" : "Score",
     "1Q" : "Not Ok - remake and delay more than 5 days",
