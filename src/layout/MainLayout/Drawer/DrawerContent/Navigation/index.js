@@ -1,5 +1,9 @@
 // material-ui
 import { Box, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+// project import
+import NavGroup from './NavGroup';
+import { useSelector } from 'react-redux';
 import {
   AppstoreAddOutlined,
   AntDesignOutlined,
@@ -17,10 +21,6 @@ const icons = {
   LineChartOutlined,
   AppstoreAddOutlined
 };
-import { useTranslation } from 'react-i18next';
-// project import
-import NavGroup from './NavGroup';
-import { useSelector } from 'react-redux';
 // ==============================|| DRAWER CONTENT - NAVIGATION ||============================== //
 
 const Navigation = () => {

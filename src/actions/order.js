@@ -112,7 +112,7 @@ export const deleteOrder = (id) => async (dispatch) => {
     dispatch(setAlert('Order Removed', 'success'));
   } catch (err) {
     dispatch({
-      type: POST_ERROR,
+      type: ORDER_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }

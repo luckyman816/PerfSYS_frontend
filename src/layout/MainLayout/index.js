@@ -9,8 +9,6 @@ import { Box, Toolbar, useMediaQuery } from '@mui/material';
 // project import
 import Drawer from './Drawer';
 import Header from './Header';
-import navigation from 'menu-items';
-import Breadcrumbs from 'components/@extended/Breadcrumbs';
 import ShowSlide from 'layout/Component/slide';
 // types
 import { openDrawer } from 'store/reducers/menu';

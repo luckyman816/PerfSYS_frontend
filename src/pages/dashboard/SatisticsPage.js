@@ -8,7 +8,7 @@ import { getOwners } from 'actions/owner';
 import { getScoreByCustomer } from 'actions/order';
 import { getScoreByFactory } from 'actions/order';
 import { getScoreByOwner } from 'actions/order';
-import { Grid, Button, IconButton, Tooltip } from '@mui/material';
+import { Grid, IconButton, Tooltip } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
