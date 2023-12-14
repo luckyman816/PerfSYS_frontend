@@ -78,7 +78,7 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
     setOwners(owners_state);
   }, [owners_state]);
   //------------------Search order----------------------//
-  const userID = useSelector((state) => state.auth.user._id);
+  const userID = useSelector((state) => state.auth.user);
   const [filter_order, setFilterOrder] = useState();
   const handleChangeSearch = (e) => {
     setFilterOrder(e.target.value);
@@ -88,7 +88,7 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
       return;
     }
     console.log('userID', userID);
-    filterOrder(filter_order, userID);
+    filterOrder(filter_order, userID._id);
   };
 
   return (
