@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import React from 'react';
 import { Link as RouterLink, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setAlert } from 'actions/alert';
 import { register } from 'actions/auth';
 import PropTypes from 'prop-types';
 // material-ui
@@ -37,7 +36,7 @@ import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
 // ============================|| FIREBASE - REGISTER ||============================ //
 
-const AuthRegister = ({ setAlert, register, isAuthenticated }) => {
+const AuthRegister = ({ register, isAuthenticated }) => {
   const [language, setLanguage] = React.useState('English');
   const [formData, setFormData] = useState({
     firstname: '',
@@ -71,10 +70,9 @@ const AuthRegister = ({ setAlert, register, isAuthenticated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     register(formData);
-    setAlert('Sign up successfully!', 'success');
   };
   if (isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
   const handleChange_l = (e) => setLanguage(e.target.value);
   return (
@@ -243,11 +241,10 @@ const AuthRegister = ({ setAlert, register, isAuthenticated }) => {
   );
 };
 AuthRegister.propTypes = {
-  setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool
 };
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated
 });
-export default connect(mapStateToProps, { setAlert, register })(AuthRegister);
+export default connect(mapStateToProps, { register })(AuthRegister);

@@ -8,7 +8,8 @@ import {
     LOGOUT,
     ACCOUNT_DELETED,
     GET_USERS,
-    SET_LANGUAGE
+    SET_LANGUAGE,
+    FILTER_USERS
   } from '../../actions/types';
   
   const initialState = {
@@ -51,6 +52,14 @@ import {
           users: payload,
           isAuthenticated: true,
           loading: false
+        }
+      case FILTER_USERS:
+        return {
+          ...state,
+          users: state.users.filter((user) => {
+            const lowerPayload = payload.toLowerCase();
+            return user.email.toLowerCase().includes(lowerPayload);
+          })
         }
       case AUTH_ERROR:
       case LOGOUT:

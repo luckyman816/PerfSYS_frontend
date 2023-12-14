@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "rgb(0 170 250)",
+    backgroundColor: "rgb(200 200 200)",
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -53,9 +53,9 @@ const AdminTable = ({getUsers}) => {
             <StyledTableCell align="center">{t('Company')}</StyledTableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {Array.isArray(users) &&
-              users.length > 0 &&
+        <TableBody align="center">
+          {
+              users.length > 0 ?
               users.map((user) => (
               <StyledTableRow key={user._id}>
                 <StyledTableCell component="th" scope="row">
@@ -65,7 +65,10 @@ const AdminTable = ({getUsers}) => {
                 <StyledTableCell align="center">{user.email}</StyledTableCell>
                 <StyledTableCell align="center">{user.company}</StyledTableCell>
               </StyledTableRow>
-          ))}
+          )) : (
+            <h3 style={{color: "rgb(150 150 150)"}}>Search result is empty!</h3>
+          )
+        }
         </TableBody>
       </Table>
     </TableContainer>

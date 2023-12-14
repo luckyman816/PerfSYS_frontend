@@ -62,7 +62,7 @@ const MonthlyBarChart = (props) => {
   useEffect(() => {
     setOptions((prevState) => ({
       ...prevState,
-      colors: [info],
+      colors: [secondary],
       xaxis: {
         categories: [`QC ${t("Score")}`, `${t("Claims")} ${t("Score")}`, t("ProcessScore")],
         labels: {

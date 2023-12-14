@@ -6,13 +6,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
-import { Grid } from '@mui/material';
+import { Grid, TextField } from '@mui/material';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { useTranslation } from 'react-i18next';
@@ -28,7 +29,6 @@ const ShowUpdateDialog = (props) => {
     completionDate: moment(props.order.completionDate),
     readyDate: moment(props.order.readyDate)
   });
-  console.log('-------showUpdateDialog---------', props.order.completionDate);
   const { orderPO, factory, customer, owner, completionDate, readyDate } = formData;
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
   const handleChange_C = (newValue) => setFormData({ ...formData, completionDate: newValue });
@@ -50,17 +50,17 @@ const ShowUpdateDialog = (props) => {
       completionDate: moment(props.order.completionDate),
       readyDate: moment(props.order.readyDate)
     });
-  },[props.order]);
+  }, [props.order]);
 
   return (
     <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-      <DialogTitle id="alert-dialog-title">{t("UpdateOrder")} PO#</DialogTitle>
+      <DialogTitle id="alert-dialog-title">{t('UpdateOrder')} PO#</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           <Stack spacing={5}>
             <Grid item xs={12} md={12} lg={12}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">{t("SelectFactory")}</InputLabel>
+                <InputLabel id="demo-simple-select-label">{t('SelectFactory')}</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -81,7 +81,7 @@ const ShowUpdateDialog = (props) => {
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">{t("SelectCustomer")}</InputLabel>
+                <InputLabel id="demo-simple-select-label">{t('SelectCustomer')}</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -102,7 +102,7 @@ const ShowUpdateDialog = (props) => {
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">{t("SelectOwner")}</InputLabel>
+                <InputLabel id="demo-simple-select-label">{t('SelectOwner')}</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -123,30 +123,40 @@ const ShowUpdateDialog = (props) => {
             </Grid>
             <Grid container item xs={12} md={12} lg={12} alignItems="center" justifyContent="space-between">
               <Grid item xs={12} md={12} lg={4}>
-                <div>{t("CompletionDate")}</div>
+                <div>{t('CompletionDate')}</div>
               </Grid>
               <Grid item xs={12} md={12} lg={8}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateField label={t("CompletionDate")}value={completionDate} onChange={handleChange_C} />
+                <LocalizationProvider dateAdapter={AdapterMoment}>
+                  <DesktopDatePicker
+                    label={t('CompletionDate')}
+                    inputFormat="MM/dd/yyyy"
+                    value={completionDate}
+                    onChange={handleChange_C}
+                  ></DesktopDatePicker>
                 </LocalizationProvider>
               </Grid>
             </Grid>
             <Grid container item xs={12} md={12} lg={12} alignItems="center" justifyContent="space-between">
               <Grid item xs={12} md={12} lg={4}>
-                <div>{t("ReadyDate")}</div>
+                <div>{t('ReadyDate')}</div>
               </Grid>
               <Grid item xs={12} md={12} lg={8}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateField label={t("ReadyDate")} value={readyDate} onChange={handleChange_R} />
+                <LocalizationProvider dateAdapter={AdapterMoment}>
+                  <DesktopDatePicker
+                    label={t('ReadyDate')}
+                    inputFormat="MM/dd/yyyy"
+                    value={readyDate}
+                    onChange={handleChange_R}
+                  ></DesktopDatePicker>
                 </LocalizationProvider>
               </Grid>
             </Grid>
             <Grid container item xs={12} md={12} lg={12} justifyContent="flex-end">
               <Button variant="contained" color="primary" startIcon={<ShoppingBasketIcon />} onClick={handleSubmit}>
-                {t("Update")}
+                {t('Update')}
               </Button>
               <Button onClick={props.handleClose} sx={{ ml: 2 }}>
-                {t("Cancel")}
+                {t('Cancel')}
               </Button>
             </Grid>
           </Stack>

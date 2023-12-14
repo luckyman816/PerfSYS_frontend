@@ -1,6 +1,17 @@
 import api from '../utils/api';
 import { setAlert } from './alert';
-import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, GET_USERS, SET_LANGUAGE } from './types';
+import {
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
+  USER_LOADED,
+  AUTH_ERROR,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT,
+  GET_USERS,
+  SET_LANGUAGE,
+  FILTER_USERS
+} from './types';
 /*
   NOTE: we don't need a config object for axios as the
  default headers in axios are already Content-Type: application/json
@@ -11,7 +22,7 @@ import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS
 export const loadUser = () => async (dispatch) => {
   try {
     const res = await api.get('/user/auth');
-    console.log("-----------loadUser--------------", res.data);
+    console.log('-----------loadUser--------------', res.data);
     dispatch({
       type: USER_LOADED,
       payload: res.data
@@ -35,6 +46,22 @@ export const getUsers = () => async (dispatch) => {
     });
   }
 };
+export const filterUsers = (filterValue) => async (dispatch) => {
+  try {
+    if (filterValue !== '') {
+      dispatch({
+        type: FILTER_USERS,
+        payload: filterValue
+      })
+    } else {
+      const res = await api.get('/user/all');
+      dispatch({
+        type: GET_USERS,
+        payload: res.data
+      });
+    }
+  } catch (err) {}
+};
 
 // Register User
 export const register = (formData) => async (dispatch) => {
@@ -45,6 +72,7 @@ export const register = (formData) => async (dispatch) => {
       payload: res.data
     });
     dispatch(loadUser());
+    dispatch(setAlert('Register Successfully', 'success', true));
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -67,18 +95,10 @@ export const login = (email, password) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: res.data
     });
-    setAlert('Order Created', 'success');
     dispatch(loadUser());
+    dispatch(setAlert('Login Successfully', 'success', true));
   } catch (err) {
-    const errors = err.response?.data.errors;
-
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
-    }
-
-    dispatch({
-      type: LOGIN_FAIL
-    });
+    dispatch(setAlert('Email or password is not valid!', 'warning', true));
   }
 };
 export const setEnvLanguage = (language) => async (dispatch) => {
@@ -86,10 +106,8 @@ export const setEnvLanguage = (language) => async (dispatch) => {
     dispatch({
       type: SET_LANGUAGE,
       payload: language
-    })
-  } catch {
-
-  }
+    });
+  } catch {}
 };
 
 // Logout

@@ -8,7 +8,9 @@ import { getOwners } from 'actions/owner';
 import { getScoreByCustomer } from 'actions/order';
 import { getScoreByFactory } from 'actions/order';
 import { getScoreByOwner } from 'actions/order';
-import { Grid, IconButton, Tooltip } from '@mui/material';
+import { getFactoryByCustomer } from 'actions/order';
+import { getFactoryByOwner } from 'actions/order';
+import { Grid, Button } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -17,14 +19,26 @@ import MonthlyBarChart from './MonthlyBarChart';
 import { useSelector } from 'react-redux';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useTranslation } from 'react-i18next';
-const SatisticsPage = ({ getFactories, getCustomers, getOwners, getScoreByCustomer, getScoreByFactory, getScoreByOwner }) => {
+import OrderTable from './OrderTable';
+const SatisticsPage = ({
+  getFactories,
+  getCustomers,
+  getOwners,
+  getScoreByCustomer,
+  getScoreByFactory,
+  getScoreByOwner,
+  getFactoryByCustomer,
+  getFactoryByOwner
+}) => {
   //----------------------Search key-------------------------//
   const [formData, setFormData] = useState({
     factory: '',
     customer: '',
-    owner: ''
+    owner: '',
+    customer_f: '',
+    owner_f: ''
   });
-  const { factory, customer, owner } = formData;
+  const { factory, customer, owner, customer_f, owner_f } = formData;
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -34,13 +48,16 @@ const SatisticsPage = ({ getFactories, getCustomers, getOwners, getScoreByCustom
   const factories_state = useSelector((state) => state.factory.factories);
   const owners_state = useSelector((state) => state.owner.owners);
   const [customers, setCustomers] = React.useState(['']);
+  const [customers_f, setCustomers_f] = React.useState(['']);
   const [factories, setFactories] = React.useState(['']);
   const [owners, setOwners] = React.useState(['']);
+  const [owners_f, setOwners_f] = React.useState(['']);
   React.useEffect(() => {
     getCustomers();
   }, [getCustomers]);
   React.useEffect(() => {
     setCustomers(customers_state);
+    setCustomers_f(customers_state);
   }, [customers_state]);
   React.useEffect(() => {
     getFactories();
@@ -53,6 +70,7 @@ const SatisticsPage = ({ getFactories, getCustomers, getOwners, getScoreByCustom
   }, [getOwners]);
   React.useEffect(() => {
     setOwners(owners_state);
+    setOwners_f(owners_state);
   }, [owners_state]);
   //----------------------- customer analysis function------------------------//
   const score_customer_state = useSelector((state) => state.order.score_customer);
@@ -60,7 +78,9 @@ const SatisticsPage = ({ getFactories, getCustomers, getOwners, getScoreByCustom
   const [average_cScore, setAverage_CScore] = useState(0);
   const [average_pScore, setAverage_PScore] = useState(0);
   const handleClickCustomer = async (c) => {
-    await getScoreByCustomer(c);
+    if (c !== '') {
+      await getScoreByCustomer(c);
+    }
   };
 
   React.useEffect(() => {
@@ -93,7 +113,9 @@ const SatisticsPage = ({ getFactories, getCustomers, getOwners, getScoreByCustom
   const [average_cScore_f, setAverage_CScore_f] = useState(0);
   const [average_pScore_f, setAverage_PScore_f] = useState(0);
   const handleClickFactory = async (f) => {
-    await getScoreByFactory(f);
+    if (f !== '') {
+      await getScoreByFactory(f);
+    }
   };
   React.useEffect(() => {
     let sum_Q_f = 0,
@@ -123,7 +145,9 @@ const SatisticsPage = ({ getFactories, getCustomers, getOwners, getScoreByCustom
   const [average_cScore_o, setAverage_CScore_o] = useState(0);
   const [average_pScore_o, setAverage_PScore_o] = useState(0);
   const handleClickOwner = async (o) => {
-    await getScoreByOwner(o);
+    if (o !== '') {
+      await getScoreByOwner(o);
+    }
   };
   React.useEffect(() => {
     let sum_Q_o = 0,
@@ -147,14 +171,39 @@ const SatisticsPage = ({ getFactories, getCustomers, getOwners, getScoreByCustom
     setAverage_CScore_o(caculateCScore_o);
     setAverage_PScore_o(caculatePScore_o);
   }, [getScoreByOwner, score_owner_state]);
-
+  //----------------------- analysis factory by customer------------------------//
+  const factory_by_customer_state = useSelector((state) => state.order.factory_by_customer);
+  const [factory_by_customer, setFactory_By_Customer] = React.useState(factory_by_customer_state);
+  const handleClickFactoryByCustomer = async (c_f) => {
+    if (c_f !== '') {
+      setFactory_By_Customer('');
+      await getFactoryByCustomer(c_f);
+    }
+  };
+  React.useEffect(() => {
+    setFactory_By_Customer(factory_by_customer_state);
+  }, [factory_by_customer_state, getFactoryByCustomer]);
+  //----------------------- analysis factory by owner------------------------//
+  const factory_by_owner_state = useSelector((state) => state.order.factory_by_owner);
+  const [factory_by_owner, setFactory_By_Owner] = React.useState(factory_by_owner_state);
+  const handleClickFactoryByOwner = async (o_f) => {
+    if (o_f !== '') {
+      setFactory_By_Owner('');
+      await getFactoryByOwner(o_f);
+    }
+  };
+  React.useEffect(() => {
+    setFactory_By_Owner(factory_by_owner_state);
+  }, [factory_by_owner_state, getFactoryByOwner]);
   return (
-    <Grid container rowSpacing={4.5} columnSpacing={2.75} marginTop="5px">
+    <Grid container rowSpacing={4.5} columnSpacing={2.75} marginTop="5px" marginBottom = "20px">
       <Grid item xs={12} md={12} lg={12}>
         <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
-          <Grid item xs={12} md={3} lg={3}>
+          <Grid item xs={12} md={6} lg={2}>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label"  sx= {{fontSize : "15px"}}>{t("SelectFactory")}</InputLabel>
+              <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
+                {t('SelectFactory')}
+              </InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -173,9 +222,21 @@ const SatisticsPage = ({ getFactories, getCustomers, getOwners, getScoreByCustom
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} md={3} lg={3}>
+          <Grid item xs={12} md={6} lg={1}>
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: 'rgb(200,200,200)' }}
+              startIcon={<VisibilityIcon />}
+              onClick={() => handleClickFactory(factory)}
+            >
+              {t('ANALYSIS')}
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={6} lg={2}>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label"  sx= {{fontSize : "15px"}}>{t("SelectCustomer")}</InputLabel>
+              <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
+                {t('SelectCustomer')}
+              </InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -194,9 +255,21 @@ const SatisticsPage = ({ getFactories, getCustomers, getOwners, getScoreByCustom
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} md={3} lg={3}>
+          <Grid item xs={12} md={6} lg={1}>
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: 'rgb(200,200,200)' }}
+              startIcon={<VisibilityIcon />}
+              onClick={() => handleClickCustomer(customer)}
+            >
+              {t('ANALYSIS')}
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={6} lg={2}>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label"  sx= {{fontSize : "15px"}}>{t("SelectOwner")}</InputLabel>
+              <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
+                {t('SelectOwner')}
+              </InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -215,35 +288,116 @@ const SatisticsPage = ({ getFactories, getCustomers, getOwners, getScoreByCustom
               </Select>
             </FormControl>
           </Grid>
+          <Grid item xs={12} md={6} lg={1}>
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: 'rgb(200,200,200)' }}
+              startIcon={<VisibilityIcon />}
+              onClick={() => handleClickOwner(owner)}
+            >
+              {t('ANALYSIS')}
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
       <Grid item xs={12} md={12} lg={12}>
-        
-        
         <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
-          <Grid item xs={12} md={3} lg={3}>
-            <Tooltip title="Analysis">
-              <IconButton color="success" name="factoryBtn" onClick={() => handleClickFactory(factory)}>
-                <VisibilityIcon />
-              </IconButton>
-            </Tooltip>
+          <Grid item xs={12} md={12} lg={3}>
             <MonthlyBarChart qScore={average_qScore_f} cScore={average_cScore_f} pScore={average_pScore_f} />
           </Grid>
-          <Grid item xs={12} md={3} lg={3}>
-            <Tooltip title="Analysis">
-              <IconButton color="success" name="customerBtn" onClick={() => handleClickCustomer(customer)}>
-                <VisibilityIcon />
-              </IconButton>
-            </Tooltip>
-            <MonthlyBarChart  qScore={average_qScore} cScore={average_cScore} pScore={average_pScore}/>
+          <Grid item xs={12} md={12} lg={3}>
+            <MonthlyBarChart qScore={average_qScore} cScore={average_cScore} pScore={average_pScore} />
           </Grid>
-          <Grid item xs={12} md={3} lg={3}>
-            <Tooltip title="Analysis">
-              <IconButton color="success"  name="ownerBtn" onClick={() => handleClickOwner(owner)}>
-                <VisibilityIcon />
-              </IconButton>
-            </Tooltip>
+          <Grid item xs={12} md={12} lg={3}>
             <MonthlyBarChart qScore={average_qScore_o} cScore={average_cScore_o} pScore={average_pScore_o} />
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item xs={12} md={12} lg={12}>
+        <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
+          <Grid item xs={12} md={12} lg={5}>
+            <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
+              <Grid item xs={12} md={12} lg={5}>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
+                    {t('SelectCustomer')}
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    name="customer_f"
+                    value={customer_f}
+                    label="Select Customer"
+                    onChange={handleChange}
+                  >
+                    {customers_f.map((customer_f_it) => {
+                      return (
+                        <MenuItem id={customer_f_it._id} value={customer_f_it.customer}>
+                          {customer_f_it.customer}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} md={12} lg={5}>
+                <Button
+                  variant="contained"
+                  sx={{ backgroundColor: 'rgb(200,200,200)' }}
+                  startIcon={<VisibilityIcon />}
+                  onClick={() => handleClickFactoryByCustomer(customer_f)}
+                >
+                  {t('ANALYSIS')}
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} md={12} lg={5}>
+            <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
+              <Grid item xs={12} md={12} lg={5}>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
+                    {t('SelectOwner')}
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    name="owner_f"
+                    value={owner_f}
+                    label="Select Customer"
+                    onChange={handleChange}
+                  >
+                    {owners_f.map((owner_f_it) => {
+                      return (
+                        <MenuItem id={owner_f_it._id} value={owner_f_it.owner}>
+                          {owner_f_it.owner}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} md={12} lg={5}>
+                <Button
+                  variant="contained"
+                  sx={{ backgroundColor: 'rgb(200,200,200)' }}
+                  startIcon={<VisibilityIcon />}
+                  onClick={() => handleClickFactoryByOwner(owner_f)}
+                >
+                  {t('ANALYSIS')}
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item xs={12} md={12} lg={12}>
+        <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
+          <Grid item xs={12} md={12} lg={5}>
+            <OrderTable data={factory_by_customer} />
+          </Grid>
+          <Grid item xs={12} md={12} lg={5}>
+            <OrderTable data={factory_by_owner} />
           </Grid>
         </Grid>
       </Grid>
@@ -257,6 +411,17 @@ SatisticsPage.propTypes = {
   getOwners: PropTypes.func.isRequired,
   getScoreByCustomer: PropTypes.func.isRequired,
   getScoreByFactory: PropTypes.func.isRequired,
-  getScoreByOwner: PropTypes.func.isRequired
+  getScoreByOwner: PropTypes.func.isRequired,
+  getFactoryByCustomer: PropTypes.func.isRequired,
+  getFactoryByOwner: PropTypes.func.isRequired
 };
-export default connect(null, { getFactories, getCustomers, getOwners, getScoreByCustomer, getScoreByFactory, getScoreByOwner })(SatisticsPage);
+export default connect(null, {
+  getFactories,
+  getCustomers,
+  getOwners,
+  getScoreByCustomer,
+  getScoreByFactory,
+  getScoreByOwner,
+  getFactoryByCustomer,
+  getFactoryByOwner
+})(SatisticsPage);

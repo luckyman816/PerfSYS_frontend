@@ -17,8 +17,8 @@ const DrawerHeader = ({ open }) => {
     // only available in paid version
     <DrawerHeaderStyled theme={theme} open={open}>
       <Stack direction="row" spacing={1} alignItems="center">
-        <Logo />
-        <h3 style={{ fontFamily: 'serif', fontSize: '25px', color: 'rgb(0 170 250)' }}>Perf SYS</h3>
+        <Logo/>
+        <h1 style={{fontFamily : 'serif', fontSize: "35px", color : 'rgb(100 100 100)', textShadow : "2px 2px rgb(200 200 200)"}}>Perf SYS</h1>
       </Stack>
     </DrawerHeaderStyled>
   );

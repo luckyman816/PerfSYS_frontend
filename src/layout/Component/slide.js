@@ -3,11 +3,11 @@ import  './slide.css'
 import { useTranslation } from 'react-i18next';
 import { Carousel } from 'antd';
 const contentStyle = {
-  height: '200px',
-  fontSize: '40px',
-  color: 'rgb(0, 170, 255)',
+  height: '250px',
+  fontSize: '60px',
+  color: 'rgb(170, 170, 170)',
   textShadow : "2px 2px white",
-  lineHeight: '160px',
+  lineHeight: '250px',
   textAlign: 'center',
   margin: '0'
 };

@@ -1,11 +1,27 @@
-import { GET_ORDERS, ORDER_ERROR, UPDATE_ORDER, DELETE_ORDER, ADD_ORDER, GET_ORDER, GET_SCORE_CUSTOMER, GET_SCORE_FACTORY, GET_SCORE_OWNER, COMPLETE_ORDER } from '../../actions/types';
+import {
+  GET_ORDERS,
+  ORDER_ERROR,
+  UPDATE_ORDER,
+  DELETE_ORDER,
+  ADD_ORDER,
+  GET_ORDER,
+  GET_SCORE_CUSTOMER,
+  GET_SCORE_FACTORY,
+  GET_SCORE_OWNER,
+  COMPLETE_ORDER,
+  GET_FACTORY_BY_CUSTOMER,
+  GET_FACTORY_BY_OWNER,
+  FILTER_ORDER
+} from '../../actions/types';
 
 const initialState = {
   orders: [],
   order: null,
   score_customer: [],
   score_factory: [],
-  score_owner : [],
+  score_owner: [],
+  factory_by_customer: [],
+  factory_by_owner: [],
   loading: true,
   error: {}
 };
@@ -20,11 +36,28 @@ function orderReducer(state = initialState, action) {
         orders: payload,
         loading: false
       };
+    case FILTER_ORDER:
+      return {
+        ...state,
+        orders: state.orders.filter((order) => {
+          return String(order.orderPO).includes(payload);
+        })
+      };
     case GET_ORDER:
       return {
         ...state,
         order: payload,
         loading: false
+      };
+    case GET_FACTORY_BY_CUSTOMER:
+      return {
+        ...state,
+        factory_by_customer: payload
+      };
+    case GET_FACTORY_BY_OWNER:
+      return {
+        ...state,
+        factory_by_owner: payload
       };
     case ADD_ORDER:
       return {
@@ -37,19 +70,19 @@ function orderReducer(state = initialState, action) {
         ...state,
         score_customer: payload,
         loading: false
-      }
+      };
     case GET_SCORE_FACTORY:
       return {
         ...state,
         score_factory: payload,
         loading: false
-      }
+      };
     case GET_SCORE_OWNER:
       return {
         ...state,
         score_owner: payload,
         loading: false
-      }
+      };
     case DELETE_ORDER:
       return {
         ...state,
@@ -61,7 +94,7 @@ function orderReducer(state = initialState, action) {
         ...state,
         orders: payload,
         loading: false
-      }
+      };
     case ORDER_ERROR:
       return {
         ...state,
@@ -71,10 +104,11 @@ function orderReducer(state = initialState, action) {
     case UPDATE_ORDER:
       return {
         ...state,
-       orders: state.orders.map((order) => (order._id == payload._id ? payload : order)),
+        orders: state.orders.map((order) => (order._id == payload._id ? payload : order)),
         // orders: payload,
         loading: false
       };
+
     default:
       return state;
   }

@@ -59,7 +59,6 @@ function stableSort(array, comparator) {
 
 function OrderTableHead({ order_h, orderBy }) {
   const { t } = useTranslation();
-  console.log('--------------------chinese translation------------------', t('Order'));
   const headCells = [
     {
       id: 'orderPO',
@@ -112,6 +111,9 @@ function OrderTableHead({ order_h, orderBy }) {
   ];
   return (
     <TableHead>
+      <TableRow>
+        
+      </TableRow>
       <TableRow>
         {headCells.map((headCell) => (
           <TableCell

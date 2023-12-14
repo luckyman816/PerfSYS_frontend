@@ -24,14 +24,17 @@ import { Formik } from 'formik';
 // project import
 import FirebaseSocial from './FirebaseSocial';
 import AnimateButton from 'components/@extended/AnimateButton';
+import { UseSelector } from '../../../../node_modules/react-redux/es/hooks/useSelector';
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { login } from 'actions/auth';
 import { setEnvLanguage } from 'actions/auth';
+import ShowSnackbar from 'layout/Component/alert';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = ({ login, setEnvLanguage, isAuthenticated }) => {
+  const alertInfo = useSelector((state) => state.alert);
   const [checked, setChecked] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
@@ -148,6 +151,7 @@ const AuthLogin = ({ login, setEnvLanguage, isAuthenticated }) => {
           </Grid>
         </form>
       </Formik>
+      <ShowSnackbar open={alertInfo[0]?.open} content={alertInfo[0]?.msg} type={alertInfo[0]?.alertType} /> 
     </>
   );
 };
