@@ -73,16 +73,16 @@ function OrderTableHead({ order_h, orderBy }) {
       label: t('Status')
     },
     {
-      id: 'customer',
-      align: 'center',
-      disablePadding: true,
-      label: t('Customer')
-    },
-    {
       id: 'factory',
       align: 'center',
       disablePadding: false,
       label: t('Factory')
+    },
+    {
+      id: 'customer',
+      align: 'center',
+      disablePadding: true,
+      label: t('Customer')
     },
     {
       id: 'owner',

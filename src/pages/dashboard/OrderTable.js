@@ -69,7 +69,7 @@ const CustomizedTables = (props) => {
                 </StyledTableCell>
               </StyledTableRow>
             )) :
-            (<h1 style={{fontFamily: "serif", color:"rgb(150 150 150)"}}>{t("NoStatisticalData")}</h1>)
+            (<h4 style={{fontFamily: "serif", color:"rgb(150 150 150)"}}>{t("NoStatisticalData")}</h4>)
           }
           
         </TableBody>

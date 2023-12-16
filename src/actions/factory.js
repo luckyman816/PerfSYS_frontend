@@ -52,7 +52,6 @@ export const getFactories = () => async (dispatch) => {
   }
   export const addFactory = (factoryData) => async (dispatch) => {
     try {
-      console.log("ffffffffffffff",factoryData)
       const res = await api.post('/factory/add', factoryData);
       
       dispatch({

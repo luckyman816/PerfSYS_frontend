@@ -9,7 +9,6 @@ import ShowSnackbar from 'layout/Component/alert';
 // ==============================|| CUSTOMER PAGE ||============================== //
 const DashboardDefault = () => {
   const alertInfo = useSelector((state) => state.alert);
-  console.log("----------alert info--------------", alertInfo[0]?.msg);
   return (
     <>
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>

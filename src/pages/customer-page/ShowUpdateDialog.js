@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
-import { Grid, TextField } from '@mui/material';
+import { Grid } from '@mui/material';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
@@ -15,7 +15,6 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-import { DateField } from '@mui/x-date-pickers/DateField';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
 
@@ -54,7 +53,7 @@ const ShowUpdateDialog = (props) => {
 
   return (
     <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-      <DialogTitle id="alert-dialog-title">{t('UpdateOrder')} PO#</DialogTitle>
+      <DialogTitle id="alert-dialog-title">{t('UpdateOrder')} PO# {orderPO}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           <Stack spacing={5}>

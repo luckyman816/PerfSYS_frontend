@@ -13,7 +13,8 @@ import {
   COMPLETE_ORDER,
   GET_FACTORY_BY_CUSTOMER,
   GET_FACTORY_BY_OWNER,
-  FILTER_ORDER
+  FILTER_ORDER,
+  GET_ORDERS_PERIOD
 } from './types';
 
 /*
@@ -38,6 +39,33 @@ export const getOrders = (id) => async (dispatch) => {
     });
   }
 };
+export const getOrdersByPeriod = (formData, category) => async (dispatch) => {
+  try {
+    if(category == 'factory'){
+      const res = await api.post('order/getFactoryOrdersByPeriod', formData)
+      dispatch ({
+        type: GET_ORDERS_PERIOD,
+        payload: res.data
+      });
+    }
+    else if(category == 'customer'){
+      const res = await api.post('order/getCustomerOrdersByPeriod', formData)
+      dispatch ({
+        type: GET_ORDERS_PERIOD,
+        payload: res.data
+      });
+    }
+    else if(category == 'owner'){
+      const res = await api.post('order/getOwnerOrdersByPeriod', formData)
+      dispatch ({
+        type: GET_ORDERS_PERIOD,
+        payload: res.data
+      });
+    }
+  }catch (err) {
+    dispatch(setAlert('Input is not enough', 'warning', true));
+  }
+}
 export const filterOrder = (filterOrder, id) => async (dispatch) => {
   try {
     if (filterOrder) {
@@ -169,8 +197,8 @@ export const deleteOrder = (id) => async (dispatch) => {
 // Add post
 export const addOrder = (formData) => async (dispatch) => {
   try {
+    console.log("-------formData-------", formData);
     const res = await api.post('/order/create', formData);
-    console.log('add_new', formData);
     dispatch({
       type: ADD_ORDER,
       payload: res.data

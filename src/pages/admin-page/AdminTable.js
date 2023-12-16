@@ -44,10 +44,10 @@ const AdminTable = ({getUsers}) => {
   },[users_state]);
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>{t('FirstName')}</StyledTableCell>
+            <StyledTableCell align="center">{t('FirstName')}</StyledTableCell>
             <StyledTableCell align="center">{t('LastName')}</StyledTableCell>
             <StyledTableCell align="center">{t('EmailAddress')}</StyledTableCell>
             <StyledTableCell align="center">{t('Company')}</StyledTableCell>
@@ -58,7 +58,7 @@ const AdminTable = ({getUsers}) => {
               users.length > 0 ?
               users.map((user) => (
               <StyledTableRow key={user._id}>
-                <StyledTableCell component="th" scope="row">
+                <StyledTableCell component="th" align="center" scope="row">
                   {user.firstname}
                 </StyledTableCell>
                 <StyledTableCell align="center">{user.lastname}</StyledTableCell>

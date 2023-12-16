@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 // import { Link, useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+
 import { getFactories } from 'actions/factory';
 import { getCustomers } from 'actions/customer';
 import { getOwners } from 'actions/owner';
@@ -10,16 +9,24 @@ import { getScoreByFactory } from 'actions/order';
 import { getScoreByOwner } from 'actions/order';
 import { getFactoryByCustomer } from 'actions/order';
 import { getFactoryByOwner } from 'actions/order';
-import { Grid, Button } from '@mui/material';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import { Grid, Button, InputLabel, MenuItem, FormControl, Select, Typography } from '@mui/material';
 import MonthlyBarChart from './MonthlyBarChart';
 import { useSelector } from 'react-redux';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import OrderTable from './OrderTable';
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      maxwidth: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP
+    }
+  }
+};
 const SatisticsPage = ({
   getFactories,
   getCustomers,
@@ -196,7 +203,14 @@ const SatisticsPage = ({
     setFactory_By_Owner(factory_by_owner_state);
   }, [factory_by_owner_state, getFactoryByOwner]);
   return (
-    <Grid container rowSpacing={4.5} columnSpacing={2.75} marginTop="5px" marginBottom = "20px">
+    <Grid container rowSpacing={7.5} columnSpacing={2.75} marginTop="5px" marginBottom="20px">
+      <Grid item xs={12} md={12} lg={12}>
+        <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
+          <Typography variant="h3" color="rgb(150,150,150)" fontFamily="serif" align="center" width="85%">
+            {t('ScoreSatisticsDesc')}
+          </Typography>
+        </Grid>
+      </Grid>
       <Grid item xs={12} md={12} lg={12}>
         <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
           <Grid item xs={12} md={6} lg={2}>
@@ -209,6 +223,7 @@ const SatisticsPage = ({
                 id="demo-simple-select"
                 name="factory"
                 value={factory}
+                MenuProps={MenuProps}
                 label="Select Factory"
                 onChange={handleChange}
               >
@@ -242,6 +257,7 @@ const SatisticsPage = ({
                 id="demo-simple-select"
                 name="customer"
                 value={customer}
+                MenuProps={MenuProps}
                 label="Select Customer"
                 onChange={handleChange}
               >
@@ -275,6 +291,7 @@ const SatisticsPage = ({
                 id="demo-simple-select"
                 name="owner"
                 value={owner}
+                MenuProps={MenuProps}
                 label="Select Customer"
                 onChange={handleChange}
               >
@@ -315,6 +332,13 @@ const SatisticsPage = ({
       </Grid>
       <Grid item xs={12} md={12} lg={12}>
         <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
+          <Typography variant="h3" color="rgb(150,150,150)" fontFamily="serif" align="center" width="85%">
+            {t('RatioDesc')}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid item xs={12} md={12} lg={12}>
+        <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
           <Grid item xs={12} md={12} lg={5}>
             <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
               <Grid item xs={12} md={12} lg={5}>
@@ -327,6 +351,7 @@ const SatisticsPage = ({
                     id="demo-simple-select"
                     name="customer_f"
                     value={customer_f}
+                    MenuProps={MenuProps}
                     label="Select Customer"
                     onChange={handleChange}
                   >
@@ -364,6 +389,7 @@ const SatisticsPage = ({
                     id="demo-simple-select"
                     name="owner_f"
                     value={owner_f}
+                    MenuProps={MenuProps}
                     label="Select Customer"
                     onChange={handleChange}
                   >

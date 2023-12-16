@@ -38,9 +38,16 @@ export const ADD_OWNER = 'ADD_OWNER';
 export const FILTER_OWNER = 'FILTER_OWNER';
 export const OWNER_ERR = 'OWNER_ERR';
 
+export const GET_SAMPLES = 'GET_SAMPLES';
+export const ADD_SAMPLE = 'ADD_SAMPLE';
+export const DELETE_SAMPLE = 'DELETE_SAMPLE';
+export const FILTER_SAMPLE = 'FILTER_SAMPLE';
+export const SAMPLE_ERR = 'SAMPLE_ERR';
+
 export const GET_ORDERS = 'GET_ORDERS';
 export const GET_ORDERS_HISTORY = 'GET_ORDERS_HISTORY';
 export const GET_ORDER = 'GET_ORDER';
+export const GET_ORDERS_PERIOD = 'GET_ORDERS_PERIOD';
 
 export const GET_ORDER_HISTORY = 'GET_ORDER_HISTORY';
 export const ADD_ORDER_HISTORY = 'ADD_ORDER_HISTORY';

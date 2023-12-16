@@ -11,7 +11,8 @@ import {
   COMPLETE_ORDER,
   GET_FACTORY_BY_CUSTOMER,
   GET_FACTORY_BY_OWNER,
-  FILTER_ORDER
+  FILTER_ORDER,
+  GET_ORDERS_PERIOD
 } from '../../actions/types';
 
 const initialState = {
@@ -22,6 +23,7 @@ const initialState = {
   score_owner: [],
   factory_by_customer: [],
   factory_by_owner: [],
+  orders_period: [],
   loading: true,
   error: {}
 };
@@ -49,6 +51,12 @@ function orderReducer(state = initialState, action) {
         order: payload,
         loading: false
       };
+    case GET_ORDERS_PERIOD:
+      return {
+        ...state,
+        orders_period : payload,
+        loading: false
+      }
     case GET_FACTORY_BY_CUSTOMER:
       return {
         ...state,

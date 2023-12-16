@@ -2,16 +2,17 @@ import * as React from 'react';
 import AdminTable from './AdminTable';
 import FactoryTable from './FactoryTable';
 import GroupIcon from '@mui/icons-material/Group';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import FactoryIcon from '@mui/icons-material/Factory';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 // material-ui
-import { Grid, Button, Typography, Box } from '@mui/material';
+import { Grid, Typography, Box, TextField, Tooltip } from '@mui/material';
 import MainCard from 'components/MainCard';
 import CustomerTable from './CustomerTable';
 import OwnerTable from './OwnerTable';
+import SampleTable from './SampleTable';
 import InviteModal from './InviteModal';
+import AddSample from './AddSample';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -22,7 +23,7 @@ import { filterOwner } from 'actions/owner';
 import PropTypes from 'prop-types';
 import ShowSnackbar from 'layout/Component/alert';
 import './admin-back.css';
-import { TextField } from '../../../node_modules/@mui/material/index';
+
 // ==============================|| CUSTOMER PAGE ||============================== //
 
 const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOwner }) => {
@@ -36,48 +37,27 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
   const handleClose = () => {
     setOpen(false);
   };
-  const handleEnter = (event) => {
-    if (event?.key !== 'Enter') {
-      return;
-    }
-    filterUsers(filterValue);
-  };
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     setFilterValue(e.target.value);
+    await filterUsers(filterValue);
   };
   // --------------factory item table filter--------//
   const [filter_factory, setFilterFactory] = React.useState('');
-  const handleChange_f = (e) => {
+  const handleChange_f = async (e) => {
     setFilterFactory(e.target.value);
-  };
-  const handleEnter_f = (event) => {
-    if (event?.key !== 'Enter') {
-      return;
-    }
-    filterFactory(filter_factory);
+    await filterFactory(filter_factory);
   };
   // --------------customer item table filter--------//
   const [filter_customer, setFilterCustomer] = React.useState('');
-  const handleChange_c = (e) => {
+  const handleChange_c = async (e) => {
     setFilterCustomer(e.target.value);
+    await filterCustomer(filter_customer);
   };
-  const handleEnter_c = (event) => {
-    if (event?.key !== 'Enter') {
-      return;
-    }
-    filterCustomer(filter_customer);
-  };
-
   // --------------owner item table filter--------//
   const [filter_owner, setFilterOwner] = React.useState('');
-  const handleChange_o = (e) => {
+  const handleChange_o = async (e) => {
     setFilterOwner(e.target.value);
-  };
-  const handleEnter_o = (event) => {
-    if (event?.key !== 'Enter') {
-      return;
-    }
-    filterOwner(filter_owner);
+    await filterOwner(filter_owner);
   };
   return (
     <>
@@ -87,7 +67,7 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
             <Typography variant="h4" color="textSecondary" style={{ marginLeft: '10px' }}>
               <div
                 style={{
-                  margin: '2% 40% 2% 2%',
+                  margin: '2% 35% 2% 2%',
                   color: 'rgb(170,170,170)',
                   fontFamily: 'serif',
                   fontSize: '30px',
@@ -97,23 +77,26 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
                 }}
               >
                 <Grid item xs={12} md={12} lg={9}>
-                <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                  <GroupIcon sx={{ mr: 1, my: 0.5 }} />
-                  <TextField
-                    id="standard-search"
-                    label={t('SearchUser')}
-                    type="search"
-                    onChange={handleChange}
-                    onKeyPress={handleEnter}
-                    variant="standard"
-                  ></TextField>
-                </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                    <GroupIcon sx={{ mr: 1, my: 0.5 }} />
+                    <Tooltip describeChild title={t('Describe')}>
+                      <TextField
+                        id="standard-search"
+                        label={t('SearchUser')}
+                        type="search"
+                        onChange={handleChange}
+                        variant="standard"
+                      ></TextField>
+                    </Tooltip>
+                    <Typography variant="h4" fontFamily="serif" color="textSecondary">
+                      {t("Performance")}
+                    </Typography>
+                  </Box>
                 </Grid>
                 <Grid item xs={12} md={12} lg={3}>
-                {t('InvitedUsers')}
+                  {t('InvitedUsers')}
                 </Grid>
-                
-               
+
                 {/* <Button
                   variant="contained"
                   sx={{ backgroundColor: 'rgb(200,200,200)' }}
@@ -145,14 +128,15 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
               >
                 <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                   <FactoryIcon sx={{ mr: 1, my: 0.5 }} />
-                  <TextField
-                    id="standard-search"
-                    label={t('SearchFactory')}
-                    type="search"
-                    onChange={handleChange_f}
-                    onKeyPress={handleEnter_f}
-                    variant="standard"
-                  ></TextField>
+                  <Tooltip describeChild title={t('Describe')}>
+                    <TextField
+                      id="standard-search"
+                      label={t('SearchFactory')}
+                      type="search"
+                      onChange={handleChange_f}
+                      variant="standard"
+                    ></TextField>
+                  </Tooltip>
                 </Box>
                 {t('Factory')}
               </div>
@@ -177,14 +161,15 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
               >
                 <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                   <SentimentVerySatisfiedIcon sx={{ mr: 1, my: 0.5 }} />
-                  <TextField
-                    id="standard-search"
-                    label={t('SearchCustomer')}
-                    type="search"
-                    onChange={handleChange_c}
-                    onKeyPress={handleEnter_c}
-                    variant="standard"
-                  ></TextField>
+                  <Tooltip describeChild title={t('Describe')}>
+                    <TextField
+                      id="standard-search"
+                      label={t('SearchCustomer')}
+                      type="search"
+                      onChange={handleChange_c}
+                      variant="standard"
+                    ></TextField>
+                  </Tooltip>
                 </Box>
                 {t('Customer')}
               </div>
@@ -209,19 +194,40 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
               >
                 <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                   <DirectionsWalkIcon sx={{ mr: 1, my: 0.5 }} />
-                  <TextField
-                    id="standard-search"
-                    label={t('SearchOwner')}
-                    type="search"
-                    onChange={handleChange_o}
-                    onKeyPress={handleEnter_o}
-                    variant="standard"
-                  ></TextField>
+                  <Tooltip describeChild title={t('Describe')}>
+                    <TextField
+                      id="standard-search"
+                      label={t('SearchOwner')}
+                      type="search"
+                      onChange={handleChange_o}
+                      variant="standard"
+                    ></TextField>
+                  </Tooltip>
                 </Box>
                 {t('Owner')}
               </div>
             </Typography>
             <OwnerTable />
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={12} lg={12}>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <Typography variant="h4" color="textSecondary" style={{ marginLeft: '10px' }}>
+              <div
+                style={{
+                  margin: '2% 10% 2% 2%',
+                  color: 'rgb(170,170,170)',
+                  fontFamily: 'serif',
+                  fontSize: '30px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: "center"
+                }}>
+                  {t('OrderSample')}
+              </div>
+            </Typography>
+            <AddSample />
+            <SampleTable />
           </MainCard>
         </Grid>
       </Grid>
