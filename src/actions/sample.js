@@ -29,6 +29,25 @@ export const deleteSample = (id) => async (dispatch) => {
       });
   }
 };
+export const filterSamples = (filterValue) => async (dispatch) => {
+  try {
+    if(filterValue !== ''){
+      dispatch({
+        type: FILTER_SAMPLE,
+        payload: filterValue
+      })
+    }else {
+      const res = await api.get('sample/all');
+      dispatch({
+        type: GET_SAMPLES,
+        payload: res.data
+      })
+    }
+
+  }catch (err) {
+
+  }
+}
 export const addSample = (sampleData) => async (dispatch) => {
     try {
       console.log("ssssssssssssssss",sampleData)

@@ -36,7 +36,7 @@ const FactoryTable = ({ getFactories, addFactory, deleteFactory }) => {
     }
     setChecked(newChecked);
   };
-  const handleChange = (e) => setFactoryData({ ...factoryData, [e.target.name]: e.target.value });
+  const handleChange = (e) => setFactoryData({ ...factoryData, [e.target.name]: e.target.value.trimEnd() });
 
   const handleClick = () => {
     addFactory(factoryData);

@@ -49,9 +49,8 @@ export const filterOwner = (filterOwner) => async (dispatch) => {
   } catch {}
 };
 export const addOwner = (ownerData) => async (dispatch) => {
-  try {
+  try { 
     const res = await api.post('/owner/add', ownerData);
-
     dispatch({
       type: ADD_OWNER,
       payload: res.data

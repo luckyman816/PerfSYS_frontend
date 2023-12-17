@@ -36,7 +36,7 @@ const CustomerTable = ({ getCustomers, addCustomer, deleteCustomer }) => {
     }
     setChecked(newChecked);
   };
-  const handleChange = (e) => setCustomerData({ ...customerData, [e.target.name]: e.target.value });
+  const handleChange = (e) => setCustomerData({ ...customerData, [e.target.name]: e.target.value.trimEnd() });
   const handleClick = () => {
     addCustomer(customerData);
   };

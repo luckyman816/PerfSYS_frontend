@@ -34,7 +34,7 @@ const OwnerTable = ({ getOwners, addOwner, deleteOwner }) => {
 
     setChecked(newChecked);
   };
-  const handleChange = (e) => setOwnerData({ ...ownerData, [e.target.name]: e.target.value });
+  const handleChange = (e) => setOwnerData({ ...ownerData, [e.target.name]: e.target.value.trimEnd() });
   const handleClick = () => {
     addOwner(ownerData);
   };

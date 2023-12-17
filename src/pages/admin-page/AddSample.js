@@ -6,6 +6,7 @@ import { getFactories } from 'actions/factory';
 import { getCustomers } from 'actions/customer';
 import { getOwners } from 'actions/owner';
 import { addSample } from 'actions/sample';
+import { filterSamples } from 'actions/sample';
 import { Grid, Button, Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
@@ -28,7 +29,7 @@ const MenuProps = {
   }
 };
 
-const AddSample = ({ getFactories, getCustomers, getOwners, addSample }) => {
+const AddSample = ({ getFactories, getCustomers, getOwners, addSample, filterSamples }) => {
   const { t } = useTranslation();
   const customers_state = useSelector((state) => state.customer.customers); // eslint-disable-line
   const factories_state = useSelector((state) => state.factory.factories); // eslint-disable-line
@@ -74,8 +75,11 @@ const AddSample = ({ getFactories, getCustomers, getOwners, addSample }) => {
   React.useEffect(() => {
     setOwners(owners_state);
   }, [owners_state]);
-  const handleChangeSearch = () => {
-
+  //-------------------filter samples--------------------//
+  const [filter_sample, setFilterSample] = React.useState('');
+  const handleChangeSearch = async(e) => {
+    setFilterSample(e.target.value);
+    await filterSamples(filter_sample);
   }
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75} marginTop="5px">
@@ -98,6 +102,7 @@ const AddSample = ({ getFactories, getCustomers, getOwners, addSample }) => {
                 id="standard-search"
                 label={t('SearchOrder')}
                 type="search"
+                name="search"
                 onChange={handleChangeSearch}
                 variant="standard"
               ></TextField>
@@ -186,6 +191,7 @@ AddSample.propTypes = {
   getFactories: PropTypes.func.isRequired,
   getCustomers: PropTypes.func.isRequired,
   getOwners: PropTypes.func.isRequired,
-  addSample: PropTypes.func.isRequired
+  addSample: PropTypes.func.isRequired,
+  filterSamples: PropTypes.func.isRequired
 };
-export default connect(null, { getFactories, getCustomers, getOwners, addSample })(AddSample);
+export default connect(null, { getFactories, getCustomers, getOwners, addSample, filterSamples })(AddSample);
