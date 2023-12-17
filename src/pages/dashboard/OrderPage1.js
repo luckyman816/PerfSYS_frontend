@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 import { getFactories } from 'actions/factory';
 import { getCustomers } from 'actions/customer';
 import { getOwners } from 'actions/owner';
+import { getOrder, getOrdersByCategory } from 'actions/order';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { getOrdersByPeriod } from 'actions/order';
-import AnalysisTable from './AnalysisTable';
+import AnalysisTable1 from './AnalysisTable1';
 import ShowSnackbar from 'layout/Component/alert';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -24,7 +24,7 @@ const MenuProps = {
     }
   }
 };
-const OrderPage = ({ getCustomers, getOwners, getOrdersByPeriod, getFactories }) => {
+const OrderPage1 = ({ getCustomers, getOwners, getFactories, getOrdersByCategory }) => {
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
     factory: '',
@@ -51,11 +51,11 @@ const OrderPage = ({ getCustomers, getOwners, getOrdersByPeriod, getFactories })
   const handleCategoryChange = async (e) => {
     setCategory(e.target.value);
     if (e.target.value == 'factory') {
-      setDisable([true, false, false]);
+      setDisable([false, true, true]);
     } else if (e.target.value == 'customer') {
-      setDisable([false, true, false]);
+      setDisable([true, false, true]);
     } else if (e.target.value == 'owner') {
-      setDisable([false, false, true]);
+      setDisable([true, true, false]);
     }
   };
   React.useEffect(() => {
@@ -77,18 +77,18 @@ const OrderPage = ({ getCustomers, getOwners, getOrdersByPeriod, getFactories })
     setOwners(owners_state);
   }, [owners_state]);
   const handleClickGetOrderByPeriod = async (formData, category) => {
-    await getOrdersByPeriod(formData, category);
+    await getOrdersByCategory(formData, category);
   };
-  const orders_period_state = useSelector((state) => state.order.orders_period);
-  const [orders_period, setOrders_Period] = React.useState(orders_period_state);
+  const orders_category_state = useSelector((state) => state.order.orders_category);
+  const [orders_category, setOrders_Period] = React.useState(orders_category_state);
   React.useEffect(() => {
-    setOrders_Period(orders_period_state);
-  }, [orders_period_state]);
+    setOrders_Period(orders_category_state);
+  }, [orders_category_state]);
   return (
     <Grid container rowSpacing={4.5} columnSpacing={4.75} marginTop="5px" marginBottom="20px">
       <Grid item xs={12} md={12} lg={12} sx={{ paddingBottom: '20px' }}>
         <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
-        <Typography variant="h3" color="rgb(150,150,150)" fontFamily="serif" align = "center" width = "85%">{t("AllOrdersByTwo")}</Typography>
+        <Typography variant="h3" color="rgb(150,150,150)" fontFamily="serif" align = "center" width = "85%">{t("AllOrdersByOne")}</Typography>
         </Grid>
       </Grid>
       <Grid item xs={12} md={12} lg={12} sx={{ paddingBottom: '20px' }}>
@@ -108,13 +108,13 @@ const OrderPage = ({ getCustomers, getOwners, getOrdersByPeriod, getFactories })
                 onChange={handleCategoryChange}
               >
                 <MenuItem id="factory" value="factory" style={{ fontSize: '20px' }}>
-                  {t('Customer&Owner')}
+                  {t('Factory')}
                 </MenuItem>
                 <MenuItem id="customer" value="customer" style={{ fontSize: '20px' }}>
-                  {t('Factory&Owner')}
+                  {t('Customer')}
                 </MenuItem>
                 <MenuItem id="owner" value="owner" style={{ fontSize: '20px' }}>
-                  {t('Factory&Customer')}
+                  {t('Owner')}
                 </MenuItem>
               </Select>
             </FormControl>
@@ -228,22 +228,22 @@ const OrderPage = ({ getCustomers, getOwners, getOrdersByPeriod, getFactories })
       </Grid>
       <Grid item xs={12} md={12} lg={12}>
         <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
-          <AnalysisTable data={orders_period} category={category} />
+          <AnalysisTable1 data={orders_category}/>
         </Grid>
       </Grid>
       <ShowSnackbar open={alertInfo[0]?.open} content={alertInfo[0]?.msg} type={alertInfo[0]?.alertType} />
     </Grid>
   );
 };
-OrderPage.propTypes = {
+OrderPage1.propTypes = {
   getFactories: PropTypes.func.isRequired,
   getCustomers: PropTypes.func.isRequired,
   getOwners: PropTypes.func.isRequired,
-  getOrdersByPeriod: PropTypes.func.isRequired
+  getOrdersByCategory: PropTypes.func.isRequired
 };
 export default connect(null, {
   getFactories,
   getCustomers,
   getOwners,
-  getOrdersByPeriod
-})(OrderPage);
+  getOrdersByCategory
+})(OrderPage1);

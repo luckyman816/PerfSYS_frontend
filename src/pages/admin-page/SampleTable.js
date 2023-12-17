@@ -88,7 +88,7 @@ const SampleTable = ({ getSamples, deleteSample }) => {
               </StyledTableRow>
             ))
           ) : (
-            <h3 style={{ color: 'rgb(150 150 150)' }}>Search result is empty!</h3>
+            <h3 style={{ color: 'rgb(150 150 150)' }}>{t('SearchResult')}</h3>
           )}
         </TableBody>
       </Table>

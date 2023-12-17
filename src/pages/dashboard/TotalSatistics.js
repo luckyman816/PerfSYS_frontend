@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import SatisticsPage from './SatisticsPage';
 import OrderPage from './OrderPage';
+import OrderPage1 from './OrderPage1';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import DvrIcon from '@mui/icons-material/Dvr';
 import { useTranslation } from 'react-i18next';
@@ -57,6 +58,7 @@ export default function BasicTabs() {
         <SatisticsPage/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
+        <OrderPage1/>
         <OrderPage/>
       </CustomTabPanel>
     </Box>

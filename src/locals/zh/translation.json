@@ -81,7 +81,12 @@
     "OrderAnalysis": "阶次饱和度分析",
     "OrderSample": "订购样品",
     "AddSample": "添加样本",
-    "OrderSatisticsDesc":"在这里，您可以获得客户和所有者的工厂统计数据、工厂和所有者的客户统计数据以及工厂和客户的所有者统计数据。",
+    "AllOrdersByOne": "在这里，您可以获得工厂、客户或所有者的所有订单。",
+    "AllOrdersByTwo":"在这里，您可以获得在某段时间内符合这两个标准的订单结果。",
     "ScoreSatisticsDesc":"在这里您可以通过图表看到工厂、客户和业主的平均分数（QC分数、索赔、流程分数）",
-    "RatioDesc" : "在这里你可以得到某个工厂的订单数占某个客户和业主的订单总数的比例。"
+    "RatioDesc" : "在这里你可以得到某个工厂的订单数占某个客户和业主的订单总数的比例。",
+    "SearchResult" : "搜索结果为空",
+    "Customer&Owner" : "客户 & 业主",
+    "Factory&Owner" : "工厂 & 业主",
+    "Factory&Customer" : "工厂 & 客户" 
 }

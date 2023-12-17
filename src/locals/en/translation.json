@@ -81,7 +81,12 @@
     "OrderAnalysis": "Analysis by order satistics",
     "OrderSample": "Order Samples",
     "AddSample": "Add Sample",
-    "OrderSatisticsDesc":"Here you can get factory statistics for customers and owners, customer statistics for factories and owners, and owner statistics for factories and customers.",
+    "AllOrdersByOne": "Here you can get all orders for a factory or customer or owner.",
+    "AllOrdersByTwo":"Here you can get the result of the orders that matches those two criterias in a certain period.",
     "ScoreSatisticsDesc": "Here you can see average score of factory, customer and owner(QC score, Claims, Process Score) though chart",
-    "RatioDesc" : "Here you can get the ratio of a certain factory order to the total number of orders for a certain customer and owner."
+    "RatioDesc" : "Here you can get the ratio of a certain factory order to the total number of orders for a certain customer and owner.",
+    "SearchResult" : "Search result is empty",
+    "Customer&Owner" : "Customer & Owner",
+    "Factory&Owner" : "Factory & Owner",
+    "Factory&Customer" : "Factory & Customer" 
 }

@@ -20,22 +20,22 @@ export default function SampleModal(props) {
       label: 'No'
     },
     {
-      id: 'customer',
-      align: 'center',
-      disablePadding: true,
-      label: t("Customer")
-    },
-    {
       id: 'factory',
       align: 'center',
-      disablePadding: false,
-      label: t('Factory')
+      disablePadding: true,
+      label: t("Factory")
     },
     {
-      id: 'operation',
+      id: 'customer',
       align: 'center',
       disablePadding: false,
-      label: t('UpdatedDate')
+      label: t('Customer')
+    },
+    {
+      id: 'owner',
+      align: 'center',
+      disablePadding: false,
+      label: t('Owner')
     }
   ];
   const [formData, setFormData] = React.useState({

@@ -67,7 +67,7 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
             <Typography variant="h4" color="textSecondary" style={{ marginLeft: '10px' }}>
               <div
                 style={{
-                  margin: '2% 35% 2% 2%',
+                  margin: '2% 0 2% 2%',
                   color: 'rgb(170,170,170)',
                   fontFamily: 'serif',
                   fontSize: '30px',
@@ -76,27 +76,22 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
                   justifyContent: 'space-between'
                 }}
               >
-                <Grid item xs={12} md={12} lg={9}>
-                  <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                    <GroupIcon sx={{ mr: 1, my: 0.5 }} />
-                    <Tooltip describeChild title={t('Describe')}>
-                      <TextField
-                        id="standard-search"
-                        label={t('SearchUser')}
-                        type="search"
-                        onChange={handleChange}
-                        variant="standard"
-                      ></TextField>
-                    </Tooltip>
-                    <Typography variant="h4" fontFamily="serif" color="textSecondary">
-                      {t("Performance")}
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} md={12} lg={3}>
-                  {t('InvitedUsers')}
-                </Grid>
-
+                <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                  <GroupIcon sx={{ mr: 1, my: 0.5 }} />
+                  <Tooltip describeChild title={t('Describe')}>
+                    <TextField
+                      id="standard-search"
+                      label={t('SearchUser')}
+                      type="search"
+                      onChange={handleChange}
+                      variant="standard"
+                    ></TextField>
+                  </Tooltip>
+                  <Typography variant="h4" fontFamily="serif" color="textSecondary">
+                    {t('Performance')}
+                  </Typography>
+                </Box>
+                <div style={{ borderBottom: '1px solid grey', paddingRight: '2%' }}>{t('InvitedUsers')}</div>
                 {/* <Button
                   variant="contained"
                   sx={{ backgroundColor: 'rgb(200,200,200)' }}
@@ -111,17 +106,16 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
             <AdminTable />
           </MainCard>
         </Grid>
-        <Grid item xs={12} md={4} lg={4}>
+        <Grid item xs={12} md={12} lg={4}>
           <MainCard sx={{ mt: 2 }} content={false}>
             <Typography variant="h4" color="textSecondary" style={{}}>
               <div
                 style={{
-                  margin: '10px 10px 10px 10px',
+                  margin: '10px 0 10px 10px',
                   color: 'rgb(150 150 150)',
                   fontFamily: 'serif',
                   fontSize: '30px',
                   display: 'flex',
-                  width: '15vw',
                   alignItems: 'center',
                   justifyContent: 'space-between'
                 }}
@@ -138,23 +132,22 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
                     ></TextField>
                   </Tooltip>
                 </Box>
-                {t('Factory')}
+                <div style={{ borderBottom: '1px solid grey', paddingRight: '2%' }}>{t('Factory')}</div>
               </div>
             </Typography>
             <FactoryTable />
           </MainCard>
         </Grid>
-        <Grid item xs={12} md={4} lg={4}>
+        <Grid item xs={12} md={12} lg={4}>
           <MainCard sx={{ mt: 2 }} content={false}>
             <Typography variant="h4" color="textSecondary" style={{}}>
               <div
                 style={{
-                  margin: '10px 10px 10px 10px',
+                  margin: '10px 0 10px 10px',
                   color: 'rgb(150 150 150)',
                   fontFamily: 'serif',
                   fontSize: '30px',
                   display: 'flex',
-                  width: '15vw',
                   alignItems: 'center',
                   justifyContent: 'space-between'
                 }}
@@ -171,23 +164,22 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
                     ></TextField>
                   </Tooltip>
                 </Box>
-                {t('Customer')}
+                <div style={{ borderBottom: '1px solid grey', paddingRight: '2%' }}>{t('Customer')}</div>
               </div>
             </Typography>
             <CustomerTable />
           </MainCard>
         </Grid>
-        <Grid item xs={12} md={4} lg={4}>
+        <Grid item xs={12} md={12} lg={4}>
           <MainCard sx={{ mt: 2 }} content={false}>
             <Typography variant="h4" color="textSecondary" style={{}}>
               <div
                 style={{
-                  margin: '10px 10px 10px 10px',
+                  margin: '10px 0 10px 10px',
                   color: 'rgb(150 150 150)',
                   fontFamily: 'serif',
                   fontSize: '30px',
                   display: 'flex',
-                  width: '15vw',
                   alignItems: 'center',
                   justifyContent: 'space-between'
                 }}
@@ -204,7 +196,7 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
                     ></TextField>
                   </Tooltip>
                 </Box>
-                {t('Owner')}
+                <div style={{ borderBottom: '1px solid grey', paddingRight: '2%' }}>{t('Owner')}</div>
               </div>
             </Typography>
             <OwnerTable />
@@ -215,15 +207,16 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
             <Typography variant="h4" color="textSecondary" style={{ marginLeft: '10px' }}>
               <div
                 style={{
-                  margin: '2% 10% 2% 2%',
+                  marginTop: '2%',
                   color: 'rgb(170,170,170)',
                   fontFamily: 'serif',
                   fontSize: '30px',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: "center"
-                }}>
-                  {t('OrderSample')}
+                  justifyContent: 'center'
+                }}
+              >
+                {t('OrderSample')}
               </div>
             </Typography>
             <AddSample />

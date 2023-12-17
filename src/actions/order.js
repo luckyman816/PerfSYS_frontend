@@ -14,7 +14,8 @@ import {
   GET_FACTORY_BY_CUSTOMER,
   GET_FACTORY_BY_OWNER,
   FILTER_ORDER,
-  GET_ORDERS_PERIOD
+  GET_ORDERS_PERIOD,
+  GET_ORDERS_CATEGORY
 } from './types';
 
 /*
@@ -66,6 +67,35 @@ export const getOrdersByPeriod = (formData, category) => async (dispatch) => {
     dispatch(setAlert('Input is not enough', 'warning', true));
   }
 }
+export const getOrdersByCategory = (formData, category) => async (dispatch) => {
+  try {
+    console.log("---------------category", category);
+    if(category == 'factory'){
+      const res = await api.post('order/getOrdersByFactory', formData)
+      dispatch ({
+        type: GET_ORDERS_CATEGORY,
+        payload: res.data
+      });
+    }
+    else if(category == 'customer'){
+      const res = await api.post('order/getOrdersByOrder', formData)
+      dispatch ({
+        type: GET_ORDERS_CATEGORY,
+        payload: res.data
+      });
+    }
+    else if(category == 'owner'){
+      const res = await api.post('order/getOrdersByOwner', formData)
+      dispatch ({
+        type: GET_ORDERS_CATEGORY,
+        payload: res.data
+      });
+    }
+  }catch (err) {
+    dispatch(setAlert('Input is not enough', 'warning', true));
+  }
+}
+
 export const filterOrder = (filterOrder, id) => async (dispatch) => {
   try {
     if (filterOrder) {
