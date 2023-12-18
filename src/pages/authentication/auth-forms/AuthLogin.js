@@ -128,9 +128,6 @@ const AuthLogin = ({ login, setEnvLanguage, isAuthenticated }) => {
                   }
                   label={<Typography variant="h6">Keep me sign in</Typography>}
                 />
-                <Link variant="h6" component={RouterLink} to="" color="text.primary">
-                  Forgot Password?
-                </Link>
               </Stack>
             </Grid>
             <Grid item xs={12}>
@@ -139,14 +136,6 @@ const AuthLogin = ({ login, setEnvLanguage, isAuthenticated }) => {
                   Login
                 </Button>
               </AnimateButton>
-            </Grid>
-            <Grid item xs={12}>
-              <Divider>
-                <Typography variant="caption"> Login with</Typography>
-              </Divider>
-            </Grid>
-            <Grid item xs={12}>
-              <FirebaseSocial />
             </Grid>
           </Grid>
         </form>

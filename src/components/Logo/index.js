@@ -23,7 +23,7 @@ const LogoSection = ({ sx, to }) => {
       to={!to ? config.defaultPath : to}
       sx={sx}
     >
-      <img src={require('../../assets/images/perf_logo.jpg')} alt="Logo" style={{ width: '80px', height: '80px' }}></img>
+      <img src={require('../../assets/images/perf_logo.png')} alt="Logo" style={{ width: '80px', height: '80px' }}></img>
     </ButtonBase>
   );
 };
