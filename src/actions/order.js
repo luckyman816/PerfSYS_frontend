@@ -78,7 +78,7 @@ export const getOrdersByCategory = (formData, category) => async (dispatch) => {
       });
     }
     else if(category == 'customer'){
-      const res = await api.post('order/getOrdersByOrder', formData)
+      const res = await api.post('order/getOrdersByCustomer', formData)
       dispatch ({
         type: GET_ORDERS_CATEGORY,
         payload: res.data
