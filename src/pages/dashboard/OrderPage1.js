@@ -134,7 +134,7 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getOrdersByCategory
                 label="Select Factory"
                 onChange={handleChange}
               >
-                {factories.map((factory_it) => {
+                {factories?.map((factory_it) => {
                   return (
                     <MenuItem id={factory_it._id} value={factory_it.factory}>
                       {factory_it.factory}
@@ -159,7 +159,7 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getOrdersByCategory
                 label="Select Customer"
                 onChange={handleChange}
               >
-                {customers.map((customer_it) => {
+                {customers?.map((customer_it) => {
                   return (
                     <MenuItem id={customer_it._id} value={customer_it.customer}>
                       {customer_it.customer}
@@ -184,7 +184,7 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getOrdersByCategory
                 label="Select Customer"
                 onChange={handleChange}
               >
-                {owners.map((owner_it) => {
+                {owners?.map((owner_it) => {
                   return (
                     <MenuItem id={owner_it._id} value={owner_it.owner}>
                       {owner_it.owner}

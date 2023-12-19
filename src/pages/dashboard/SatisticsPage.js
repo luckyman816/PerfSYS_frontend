@@ -227,7 +227,7 @@ const SatisticsPage = ({
                 label="Select Factory"
                 onChange={handleChange}
               >
-                {factories.map((factory_it) => {
+                {factories?.map((factory_it) => {
                   return (
                     <MenuItem id={factory_it._id} value={factory_it.factory}>
                       {factory_it.factory}
@@ -261,7 +261,7 @@ const SatisticsPage = ({
                 label="Select Customer"
                 onChange={handleChange}
               >
-                {customers.map((customer_it) => {
+                {customers?.map((customer_it) => {
                   return (
                     <MenuItem id={customer_it._id} value={customer_it.customer}>
                       {customer_it.customer}
@@ -295,7 +295,7 @@ const SatisticsPage = ({
                 label="Select Customer"
                 onChange={handleChange}
               >
-                {owners.map((owner_it) => {
+                {owners?.map((owner_it) => {
                   return (
                     <MenuItem id={owner_it._id} value={owner_it.owner}>
                       {owner_it.owner}
@@ -355,7 +355,7 @@ const SatisticsPage = ({
                     label="Select Customer"
                     onChange={handleChange}
                   >
-                    {customers_f.map((customer_f_it) => {
+                    {customers_f?.map((customer_f_it) => {
                       return (
                         <MenuItem id={customer_f_it._id} value={customer_f_it.customer}>
                           {customer_f_it.customer}
@@ -393,7 +393,7 @@ const SatisticsPage = ({
                     label="Select Customer"
                     onChange={handleChange}
                   >
-                    {owners_f.map((owner_f_it) => {
+                    {owners_f?.map((owner_f_it) => {
                       return (
                         <MenuItem id={owner_f_it._id} value={owner_f_it.owner}>
                           {owner_f_it.owner}
