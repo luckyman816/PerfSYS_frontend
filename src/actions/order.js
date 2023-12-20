@@ -186,11 +186,9 @@ export const updateOrder = (id, formData) => async (dispatch) => {
       type: UPDATE_ORDER,
       payload: res.data
     });
+    dispatch(setAlert('Update successfully', 'success', true));
   } catch (err) {
-    dispatch({
-      type: ORDER_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
+    dispatch(setAlert('Update is error', 'warning', true));
   }
 };
 //update score
@@ -201,8 +199,9 @@ export const updateScore = (id, userId, formData) => async (dispatch) => {
       type: COMPLETE_ORDER,
       payload: res.data
     });
+    dispatch(setAlert('Order is completed successfully', 'success', true));
   } catch (err) {
-    dispatch(setAlert('Score already exist', 'warning', true));
+    dispatch(setAlert('Score already exists or is not enough', 'warning', true));
   }
 };
 

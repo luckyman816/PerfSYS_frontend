@@ -53,8 +53,7 @@ export const getCustomers = () => async (dispatch) => {
   }
   export const addCustomer = (customerData) => async (dispatch) => {
     try {
-      const removedSpace = customerData.trim();
-      const res = await api.post('/customer/add', removedSpace);
+      const res = await api.post('/customer/add', customerData);
       
       dispatch({
         type: ADD_CUSTOMER,

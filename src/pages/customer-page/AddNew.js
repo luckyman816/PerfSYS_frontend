@@ -6,13 +6,11 @@ import { getFactories } from 'actions/factory';
 import { getCustomers } from 'actions/customer';
 import { getOwners } from 'actions/owner';
 import { filterOrder } from 'actions/order';
-import { getSamples } from 'actions/sample';
 import { Grid, Button, Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import ListAltIcon from '@mui/icons-material/ListAlt';
 import Select from '@mui/material/Select';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -20,7 +18,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ShowAddDialog from './ShowAddDialog';
-import SampleModal from './SampleDialog';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 const ITEM_HEIGHT = 48;
@@ -33,16 +30,14 @@ const MenuProps = {
     }
   }
 };
-const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder, getSamples }) => {
+const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }) => {
   const { t } = useTranslation();
   const customers_state = useSelector((state) => state.customer.customers); 
   const factories_state = useSelector((state) => state.factory.factories); 
   const owners_state = useSelector((state) => state.owner.owners);   
-  const samples_state = useSelector((state) => state.sample.samples);
   const [customers, setCustomers] = React.useState(['']); 
   const [factories, setFactories] = React.useState(['']); 
   const [owners, setOwners] = React.useState(['']); 
-  const [samples, setSamples] = React.useState(['']);
 
   //----------------Add new modal display-----------------//
   const [open, setOpen] = React.useState(false);
@@ -52,14 +47,6 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder, 
   const handleClose = () => {
     setOpen(false);
   };
-  //------------------Add sample modal display-------------------//
-  const [modal, setModal] = React.useState(false);
-  const handleSampleOpen = () => {
-    setModal(true);
-  }
-  const handleSampleClose = () => {
-    setModal(false);
-  }
  //--------------------Add Order------------------------//
   const [formData, setFormData] = useState({
     orderPO: '',
@@ -75,7 +62,7 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder, 
   const { orderPO, factory, customer, owner, completionDate, readyDate } = formData;
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
   const handleChange_C = (newValue) => setFormData({ ...formData, completionDate: newValue });
-  const handleChange_R = (newValue) => setFormData({ ...formData, readyDate: newValue });
+  const handleChange_R = (newValue) => setFormData({ ...formData, readyDate: newValue, orderPO: 'PO  '+newValue.format("DDMMYYYY")+ '-00001'});
   const handleOk = (e) => {
     e.preventDefault();
     addOrder(formData);
@@ -100,33 +87,18 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder, 
   React.useEffect(() => {
     setOwners(owners_state);
   }, [owners_state]);
-  React.useEffect(() => {
-    getSamples();
-  }, [getSamples]);
-  React.useEffect(() => {
-    setSamples(samples_state);
-  }, [samples_state]);
   //------------------filter order----------------------//
   const userID = useSelector((state) => state.auth.user);
-  const [filter_order, setFilterOrder] = useState();
-  const handleChangeSearch = (e) => {
-    setFilterOrder(e.target.value);
+  const handleChangeSearch = async(e) => {
+    filterOrder(e.target.value, userID._id);
   };
-  const handleEnter = (event) => {
-    if (event?.key !== 'Enter') {
-      return;
-    }
-    console.log('userID', userID);
-    filterOrder(filter_order, userID._id);
-  };
-
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75} marginTop="5px">
       <Grid item xs={12} md={12} lg={12}>
         <Grid container alignItems="center" justifyContent="space-between" rowSpacing={4.5}>
           <Grid item xs={12} md={12} lg={12}>
             <Grid container alignItems="center" justifyContent="center" rowSpacing={4.5}>
-              <Grid item xs={12} md={12} lg={1.7}>
+              <Grid item xs={12} md={12} lg={2}>
                 <Button
                   variant="contained"
                   color="success"
@@ -137,25 +109,13 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder, 
                   {t('AddNew')}
                 </Button>
               </Grid>
-              <Grid item xs={12} md={12} lg={1.7}>
-                <Button
-                  variant="contained"
-                  color="success"
-                  sx={{ background: 'rgb(170,170,170)' }}
-                  startIcon={<ListAltIcon />}
-                  onClick={handleSampleOpen}
-                >
-                  {t('ChooseSample')}
-                </Button>
-              </Grid>
-              <Grid item xs={12} md={12} lg={8}>
+              <Grid item xs={12} md={12} lg={10}>
                 <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                   <TextField
                     id="standard-search"
                     label={t('SearchOrder')}
                     type="search"
                     onChange={handleChangeSearch}
-                    onKeyPress={handleEnter}
                     variant="standard"
                   ></TextField>
                   <SearchIcon sx={{ mr: 1, my: 0.5 }} />
@@ -169,14 +129,8 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder, 
               content={t('AddLetter')}
               handleOk={handleOk}
             />
-            <SampleModal
-              open={modal}
-              handleClose={handleSampleClose}
-              addOrder = {addOrder}
-              data = {samples}
-            />
           </Grid>
-          <Grid item xs={12} md={12} lg={1}>
+          <Grid item xs={12} md={12} lg={2}>
             <TextField
               id="outlined-search"
               label={`${t('EnterOrder')}`}
@@ -186,7 +140,7 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder, 
               onChange={handleChange}
             />
           </Grid>
-          <Grid item xs={12} md={12} lg={2}>
+          <Grid item xs={12} md={12} lg={1.5}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
                 {t('SelectFactory')}
@@ -210,7 +164,7 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder, 
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} md={12} lg={2}>
+          <Grid item xs={12} md={12} lg={1.5}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
                 {t('SelectCustomer')}
@@ -234,7 +188,7 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder, 
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} md={12} lg={1}>
+          <Grid item xs={12} md={12} lg={1.5}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
                 {t('SelectOwner')}
@@ -289,6 +243,5 @@ AddNew.propTypes = {
   getCustomers: PropTypes.func.isRequired,
   getOwners: PropTypes.func.isRequired,
   filterOrder: PropTypes.func.isRequired,
-  getSamples: PropTypes.func.isRequired
 };
-export default connect(null, { addOrder, getFactories, getCustomers, getOwners, filterOrder, getSamples })(AddNew);
+export default connect(null, { addOrder, getFactories, getCustomers, getOwners, filterOrder })(AddNew);

@@ -52,8 +52,7 @@ export const getFactories = () => async (dispatch) => {
   }
   export const addFactory = (factoryData) => async (dispatch) => {
     try {
-      const removedSpace = factoryData.trim();
-      const res = await api.post('/factory/add', removedSpace);
+      const res = await api.post('/factory/add', factoryData);
       
       dispatch({
         type: ADD_FACTORY,
