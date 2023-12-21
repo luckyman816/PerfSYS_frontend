@@ -58,7 +58,7 @@ const CustomerTable = ({ getCustomers, addCustomer, deleteCustomer }) => {
     setCustomerData({customer: ''});
   };
   const handleOk = () => {
-    deleteFactory(customer_id);
+    deleteCustomer(customer_id);
     setOpen(false)
   }
   const handleClose = () => {
