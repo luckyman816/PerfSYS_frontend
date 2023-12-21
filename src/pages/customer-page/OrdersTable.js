@@ -160,9 +160,9 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
   //--------------Open History Dialog-----------//
   const handleClickOpen_h = (orderID) => {
     setOpen_h(true);
-    console.log('aaa________', orderID);
+
   };
-  const handleClose_h = () => {
+  const handleClose_h = () => { 
     setOpen_h(false);
   };
   //--------------Open Update dialog-----------//
@@ -318,7 +318,6 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
       </TableContainer>
       <ShowAddDialog
         open={open_d}
-        handleClickOpen={handleClickOpen_d}
         handleClose={handleClose_d}
         content={t('DeleteLetter')}
         handleOk={handleOk}
@@ -326,7 +325,6 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
       <ShowHistoryDialog
         open={open_h}
         data={orderHistory}
-        handleClickOpen={handleClickOpen_h}
         handleClose={handleClose_h}
       />
       <ShowUpdateDialog
@@ -338,7 +336,6 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
         factories={factories}
         customers={customers}
         owners={owners}
-        handleClickOpen={handleClickOpen_u}
         handleClose={handleClose_u}
       />
       <ShowCompletionDialog
@@ -346,7 +343,6 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
         id={orderID}
         userId={userId}
         updateScore={updateScore}
-        handleClickOpen={handleClickOpen_c}
         handleClose={handleClose_c}
       />
     </Box>

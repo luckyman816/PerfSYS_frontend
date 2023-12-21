@@ -2,12 +2,10 @@ import * as React from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-// import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-// import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-// import CommentIcon from '@mui/icons-material/Comment';
+import DeleteModal from './DeleteModal';
 import PlaylistAddCircleIcon from '@mui/icons-material/PlaylistAddCircle';
 import { Grid, Button, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
@@ -20,6 +18,8 @@ const CustomerTable = ({ getCustomers, addCustomer, deleteCustomer }) => {
   const customers_state = useSelector((state) => state.customer.customers);
   const [customers, setCustomers] = React.useState(['']);
   const [checked, setChecked] = React.useState([0]);
+  const [open, setOpen] = React.useState(false);
+  const [customer_id, setCustomer_Id] = React.useState();
   const [customerData, setCustomerData] = React.useState({
     customer: '',
     location: ''
@@ -41,7 +41,8 @@ const CustomerTable = ({ getCustomers, addCustomer, deleteCustomer }) => {
     addCustomer(customerData);
   };
   const handleDelete = (id) => {
-    deleteCustomer(id);
+    setCustomer_Id(id);
+    setOpen(true);
   };
   React.useEffect(() => {
     getCustomers();
@@ -54,7 +55,15 @@ const CustomerTable = ({ getCustomers, addCustomer, deleteCustomer }) => {
       return;
     }
     addCustomer(customerData);
+    setCustomerData({customer: ''});
   };
+  const handleOk = () => {
+    deleteFactory(customer_id);
+    setOpen(false)
+  }
+  const handleClose = () => {
+    setOpen(false);
+  }
   return (
     <Grid container alignItems="center" justifyContent="space-between">
       <Grid item xs={12} md={12} lg={12}>
@@ -97,6 +106,12 @@ const CustomerTable = ({ getCustomers, addCustomer, deleteCustomer }) => {
           {t('AddNew')}
         </Button>
       </Grid>
+      <DeleteModal
+        open = {open}
+        handleOk = {handleOk}
+        handleClose = {handleClose}
+        content = {t('DeleteCustomer')}
+      />
     </Grid>
   );
 };

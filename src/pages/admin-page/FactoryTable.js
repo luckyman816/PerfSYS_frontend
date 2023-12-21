@@ -13,12 +13,15 @@ import { addFactory } from 'actions/factory';
 import { deleteFactory } from 'actions/factory';
 import { useSelector } from 'react-redux';
 import { connect } from 'react-redux';
+import DeleteModal from './DeleteModal';
 import { useTranslation } from 'react-i18next';
 const FactoryTable = ({ getFactories, addFactory, deleteFactory }) => {
   const { t } = useTranslation();
   const factories_state = useSelector((state) => state.factory.factories);
   const [factories, setFactories] = React.useState(['']);
   const [checked, setChecked] = React.useState([0]);
+  const [open, setOpen] = React.useState(false);
+  const [factory_id, setFactory_Id] = React.useState();
   const [factoryData, setFactoryData] = React.useState({
     factory: '',
     location: '',
@@ -42,7 +45,8 @@ const FactoryTable = ({ getFactories, addFactory, deleteFactory }) => {
     addFactory(factoryData);
   };
   const handleDelete = (id) => {
-    deleteFactory(id);
+    setFactory_Id(id);
+    setOpen(true)
   };
   React.useEffect(() => {
     getFactories();
@@ -55,7 +59,15 @@ const FactoryTable = ({ getFactories, addFactory, deleteFactory }) => {
       return;
     }
     addFactory(factoryData);
+    setFactoryData({factory: ''});
   };
+  const handleOk = () => {
+    deleteFactory(factory_id);
+    setOpen(false)
+  }
+  const handleClose = () => {
+    setOpen(false);
+  }
   return (
     <Grid container alignItems="center" justifyContent="space-between">
       <Grid item xs={12} md={12} lg={12}>
@@ -104,6 +116,12 @@ const FactoryTable = ({ getFactories, addFactory, deleteFactory }) => {
           {t('AddNew')}
         </Button>
       </Grid>
+      <DeleteModal
+        open = {open}
+        handleOk = {handleOk}
+        handleClose = {handleClose}
+        content = {t('DeleteFactory')}
+      />
     </Grid>
   );
 };

@@ -5,6 +5,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteModal from './DeleteModal';
 import PlaylistAddCircleIcon from '@mui/icons-material/PlaylistAddCircle';
 import { Grid, Button, TextField } from '@mui/material';
 import { getOwners, addOwner, deleteOwner } from 'actions/owner';
@@ -16,6 +17,8 @@ const OwnerTable = ({ getOwners, addOwner, deleteOwner }) => {
   const { t } = useTranslation();
   const owners_state = useSelector((state) => state.owner.owners);
   const [owners, setOwners] = React.useState(['']);
+  const [open, setOpen] = React.useState(false);
+  const [owner_id, setOwner_Id] = React.useState();
   const [ownerData, setOwnerData] = React.useState({
     owner: '',
     location: ''
@@ -39,7 +42,8 @@ const OwnerTable = ({ getOwners, addOwner, deleteOwner }) => {
     addOwner(ownerData);
   };
   const handleDelete = (id) => {
-    deleteOwner(id);
+    setOwner_Id(id);
+    setOpen(true);
   };
   React.useEffect(() => {
     getOwners();
@@ -52,7 +56,15 @@ const OwnerTable = ({ getOwners, addOwner, deleteOwner }) => {
       return;
     }
     addOwner(ownerData);
+    setOwnerData({owner: ''});
   };
+  const handleOk = () => {
+    deleteOwner(owner_id);
+    setOpen(false)
+  }
+  const handleClose = () => {
+    setOpen(false);
+  }
   return (
     <Grid container alignItems="center" justifyContent="space-between">
       <Grid item xs={12} md={12} lg={12}>
@@ -102,6 +114,12 @@ const OwnerTable = ({ getOwners, addOwner, deleteOwner }) => {
           {t('AddNew')}
         </Button>
       </Grid>
+      <DeleteModal
+        open = {open}
+        handleOk = {handleOk}
+        handleClose = {handleClose}
+        content = {t('DeleteOwner')}
+      />
     </Grid>
   );
 };

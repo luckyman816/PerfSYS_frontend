@@ -20,6 +20,7 @@ import moment from 'moment-timezone';
 
 const ShowUpdateDialog = (props) => {
   const { t } = useTranslation();
+  console.log("---------update-------",props.order.factory, props.order.customer, props.order.owner);
   const [formData, setFormData] = React.useState({
     orderPO: props.order.orderPO,
     factory: props.order.factory,
@@ -51,19 +52,20 @@ const ShowUpdateDialog = (props) => {
     });
   }, [props.order]);
 
-  return (
+ return (
     <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-      <DialogTitle id="alert-dialog-title">{t('UpdateOrder')} PO# {orderPO}</DialogTitle>
+      <DialogTitle id="alert-dialog-title" sx={{fontSize: "20px"}}>{t('UpdateOrder')} PO# {orderPO}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           <Stack spacing={5}>
             <Grid item xs={12} md={12} lg={12}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">{t('SelectFactory')}</InputLabel>
+              <FormControl fullWidth sx={{marginTop: "10px"}}>
+                <InputLabel id="demo-simple-select-label" >{t('SelectFactory')}</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   name="factory"
+                  defaultValue={props.order.factory}
                   value={factory}
                   label="Select Factory"
                   onChange={handleChange}
@@ -85,6 +87,7 @@ const ShowUpdateDialog = (props) => {
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   name="customer"
+                  defaultValue={props.order.customer}
                   value={customer}
                   label="Select Customer"
                   onChange={handleChange}
@@ -106,6 +109,7 @@ const ShowUpdateDialog = (props) => {
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   name="owner"
+                  defaultValue={props.order.owner}
                   value={owner}
                   label="Select owner"
                   onChange={handleChange}

@@ -10,6 +10,7 @@ export const LOGOUT = 'LOGOUT';
 export const GET_USERS = 'GET_USERS';
 export const FILTER_USERS = 'FILTER_USERS';
 export const SET_LANGUAGE = 'SET_LANGUAGE';
+export const DELETE_USER = 'DELETE_USER';
 
 export const GET_PROFILE = 'GET_PROFILE';
 export const GET_PROFILES = 'GET_PROFILES';

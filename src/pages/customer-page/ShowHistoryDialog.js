@@ -19,16 +19,16 @@ export default function ShowHistoryDialog(props) {
       label: 'No'
     },
     {
-      id: 'customer',
-      align: 'center',
-      disablePadding: true,
-      label: t("Customer")
-    },
-    {
       id: 'factory',
       align: 'center',
+      disablePadding: true,
+      label: t("Factory")
+    },
+    {
+      id: 'customer',
+      align: 'center',
       disablePadding: false,
-      label: t('Factory')
+      label: t('Customer')
     },
     {
       id: 'orderCompletionDate',
@@ -53,7 +53,7 @@ export default function ShowHistoryDialog(props) {
   console.log('history----------', orders);
   return (
     <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-      <DialogTitle id="alert-dialog-title">{t('Order')} PO# {Array.isArray(orders) && orders.length > 0 && orders[0]?.orderPO}</DialogTitle>
+      <DialogTitle id="alert-dialog-title" sx={{fontSize: "20px"}}>{t('OrderHistory')} PO# {Array.isArray(orders) && orders.length > 0 && orders[0]?.orderPO}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           <TableContainer

@@ -75,9 +75,6 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
                     onChange={handleChange}
                     variant="standard"
                   ></TextField>
-                  <Typography variant="h4" fontFamily="serif" color="textSecondary">
-                    {t('Performance')}
-                  </Typography>
                 </Box>
                 <div style={{ borderBottom: '1px solid grey', paddingRight: '2%' }}>{t('InvitedUsers')}</div>
                 <InviteModal open={open} handleClose={handleClose} handleOk={handleClickOpen} />

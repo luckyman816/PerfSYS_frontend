@@ -10,7 +10,8 @@ import {
   LOGOUT,
   GET_USERS,
   SET_LANGUAGE,
-  FILTER_USERS
+  FILTER_USERS,
+  DELETE_USER
 } from './types';
 /*
   NOTE: we don't need a config object for axios as the
@@ -85,6 +86,18 @@ export const register = (formData) => async (dispatch) => {
     });
   }
 };
+export const deleteUser = (id) => async (dispatch) => {
+  try {
+      const res = await api.delete(`/user/delete/${id}`);
+      dispatch({
+        type: DELETE_USER,
+        payload: res.data
+      });
+      dispatch(setAlert('User is removed successfully', 'success', true));
+  }catch (err) {
+
+  }
+}
 
 // Login User
 export const login = (email, password) => async (dispatch) => {

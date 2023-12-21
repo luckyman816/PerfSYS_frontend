@@ -88,5 +88,10 @@
     "SearchResult" : "Search result is empty",
     "Customer&Owner" : "Customer & Owner",
     "Factory&Owner" : "Factory & Owner",
-    "Factory&Customer" : "Factory & Customer" 
+    "Factory&Customer" : "Factory & Customer",
+    "OrderHistory" : "Order History",
+    "DeleteUser" : "Do you really delete user?",
+    "DeleteFactory" : "Do you really delete factory?",
+    "DeleteCustomer" : "Do you really delete customer?",
+    "DeleteOwner" : "Do you really delete owner?"
 }

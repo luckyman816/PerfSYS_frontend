@@ -88,5 +88,10 @@
     "SearchResult" : "搜索结果为空",
     "Customer&Owner" : "客户 & 业主",
     "Factory&Owner" : "工厂 & 业主",
-    "Factory&Customer" : "工厂 & 客户" 
+    "Factory&Customer" : "工厂 & 客户",
+    "OrderHistory" : "订购历史",
+    "DeleteUser" : "您真的会删除用户吗？" ,
+    "DeleteFactory" : "你真的要删除工厂吗？",
+    "DeleteCustomer" : "您真的会删除客户吗？",
+    "DeleteOwner" : "你真的要删除所有者吗？"
 }
