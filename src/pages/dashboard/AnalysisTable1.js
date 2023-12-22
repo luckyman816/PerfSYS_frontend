@@ -9,6 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useTranslation } from 'react-i18next';
+import moment from 'moment';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: 'rgb(170, 170, 170)',
@@ -32,9 +33,22 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const AnalysisTable1 = (props) => {
   const { t } = useTranslation();
   const [analysisData, setAnalysisData] = useState(props.data);
+  const [average, setAverage] = useState();
   React.useEffect(() => {
     setAnalysisData(props.data);
   }, [props.data]);
+  React.useEffect(() => {
+    let sum = 0,
+      num = 0;
+    props.data?.map((it) => {
+      num++;
+      if ((moment(it.completionDate?.split('T')[0]) - moment(it.readyDate?.split('T')[0])) / (1000 * 3600 * 24) > 0) {
+        sum += 100;
+      }
+    });
+    setAverage(Math.ceil(sum / num));
+  }, [props.data]);
+  console.log('---------------average--------------', average);
   return (
     <TableContainer component={Paper} style={{ fontSize: '20px' }}>
       <Table aria-label="customized table">
@@ -46,6 +60,8 @@ const AnalysisTable1 = (props) => {
             <StyledTableCell align="center">{t('Owner')}</StyledTableCell>
             <StyledTableCell align="center">{t('ReadyDate')}</StyledTableCell>
             <StyledTableCell align="center">{t('CompletionDate')}</StyledTableCell>
+            <StyledTableCell align="center">{t('Difference')}</StyledTableCell>
+            <StyledTableCell align="center">{t('ANALYSIS')}</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody align="right">
@@ -60,12 +76,31 @@ const AnalysisTable1 = (props) => {
                 <StyledTableCell align="center">{it.owner}</StyledTableCell>
                 <StyledTableCell align="center">{it.readyDate?.split('T')[0]}</StyledTableCell>
                 <StyledTableCell align="center">{it.completionDate?.split('T')[0]}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {(moment(it.completionDate?.split('T')[0]) - moment(it.readyDate?.split('T')[0])) / (1000 * 3600 * 24)}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {(moment(it.completionDate?.split('T')[0]) - moment(it.readyDate?.split('T')[0])) / (1000 * 3600 * 24) > 0
+                    ? '100%'
+                    : '0%'}
+                </StyledTableCell>
               </StyledTableRow>
             ))
           ) : (
             <h4 style={{ fontFamily: 'serif', color: 'rgb(150 150 150)' }}>{t('NoStatisticalData')}</h4>
           )}
+          <TableRow>
+            <TableCell rowSpan={2}/>
+            <TableCell rowSpan={2}/>
+            <TableCell rowSpan={2}/>
+            <TableCell rowSpan={2}/>
+            <TableCell rowSpan={2}/>
+            <TableCell rowSpan={2}/>
+            <TableCell rowSpan={2}>{t('Total')}</TableCell>
+            <TableCell align="center">{average ? average : 0}%</TableCell>
+          </TableRow>
         </TableBody>
+        
       </Table>
     </TableContainer>
   );

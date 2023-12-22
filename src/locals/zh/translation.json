@@ -92,5 +92,7 @@
     "DeleteUser" : "您真的会删除用户吗？" ,
     "DeleteFactory" : "你真的要删除工厂吗？",
     "DeleteCustomer" : "您真的会删除客户吗？",
-    "DeleteOwner" : "你真的要删除所有者吗？"
+    "DeleteOwner" : "你真的要删除所有者吗？",
+    "Difference" : "差异",
+    "Total" : "总计"
 }

@@ -92,5 +92,7 @@
     "DeleteUser" : "Do you really delete user?",
     "DeleteFactory" : "Do you really delete factory?",
     "DeleteCustomer" : "Do you really delete customer?",
-    "DeleteOwner" : "Do you really delete owner?"
+    "DeleteOwner" : "Do you really delete owner?",
+    "Difference" : "Difference",
+    "Total" : "Total"
 }
