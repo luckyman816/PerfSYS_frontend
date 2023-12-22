@@ -44,8 +44,8 @@ const AnalysisTable1 = (props) => {
             <StyledTableCell align="center">{t('Factory')}</StyledTableCell>
             <StyledTableCell align="center">{t('Customer')}</StyledTableCell>
             <StyledTableCell align="center">{t('Owner')}</StyledTableCell>
-            <StyledTableCell align="center">{t('CompletionDate')}</StyledTableCell>
             <StyledTableCell align="center">{t('ReadyDate')}</StyledTableCell>
+            <StyledTableCell align="center">{t('CompletionDate')}</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody align="right">
@@ -58,8 +58,8 @@ const AnalysisTable1 = (props) => {
                 <StyledTableCell align="center">{it.factory}</StyledTableCell>
                 <StyledTableCell align="center">{it.customer}</StyledTableCell>
                 <StyledTableCell align="center">{it.owner}</StyledTableCell>
-                <StyledTableCell align="center">{it.completionDate?.split('T')[0]}</StyledTableCell>
                 <StyledTableCell align="center">{it.readyDate?.split('T')[0]}</StyledTableCell>
+                <StyledTableCell align="center">{it.completionDate?.split('T')[0]}</StyledTableCell>
               </StyledTableRow>
             ))
           ) : (

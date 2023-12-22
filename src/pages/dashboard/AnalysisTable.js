@@ -68,8 +68,8 @@ const AnalysisTable = (props) => {
                 setCategory(props.category)
               }
               </StyledTableCell>
-            <StyledTableCell align="center">{t('CompletionDate')}</StyledTableCell>
             <StyledTableCell align="center">{t('ReadyDate')}</StyledTableCell>
+            <StyledTableCell align="center">{t('CompletionDate')}</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody align="right">
@@ -84,8 +84,8 @@ const AnalysisTable = (props) => {
                     it[setItem(props.category)]
                   }
                   </StyledTableCell>
-                <StyledTableCell align="center">{it.completionDate?.split('T')[0]}</StyledTableCell>
                 <StyledTableCell align="center">{it.readyDate?.split('T')[0]}</StyledTableCell>
+                <StyledTableCell align="center">{it.completionDate?.split('T')[0]}</StyledTableCell>
               </StyledTableRow>
             ))
           ) : (
