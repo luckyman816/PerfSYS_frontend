@@ -32,12 +32,12 @@ const MenuProps = {
 };
 const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }) => {
   const { t } = useTranslation();
-  const customers_state = useSelector((state) => state.customer.customers); 
-  const factories_state = useSelector((state) => state.factory.factories); 
-  const owners_state = useSelector((state) => state.owner.owners);   
-  const [customers, setCustomers] = React.useState(['']); 
-  const [factories, setFactories] = React.useState(['']); 
-  const [owners, setOwners] = React.useState(['']); 
+  const customers_state = useSelector((state) => state.customer.customers);
+  const factories_state = useSelector((state) => state.factory.factories);
+  const owners_state = useSelector((state) => state.owner.owners);
+  const [customers, setCustomers] = React.useState(['']);
+  const [factories, setFactories] = React.useState(['']);
+  const [owners, setOwners] = React.useState(['']);
 
   //----------------Add new modal display-----------------//
   const [open, setOpen] = React.useState(false);
@@ -47,7 +47,7 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
   const handleClose = () => {
     setOpen(false);
   };
- //--------------------Add Order------------------------//
+  //--------------------Add Order------------------------//
   const [formData, setFormData] = useState({
     orderPO: '',
     factory: '',
@@ -63,15 +63,23 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
   const handleChange_C = (newValue) => setFormData({ ...formData, completionDate: newValue });
   const handleChange_R = (newValue) => {
-    setFormData({ ...formData, readyDate: newValue});
-    if(orderPO == ''){
-      setFormData({orderPO: 'PO  '+newValue.format("DDMMYYYY")+ '-00001'});
+    setFormData({ ...formData, readyDate: newValue });
+    if (orderPO == '') {
+      setFormData({...formData, readyDate: newValue, orderPO: 'PO  ' + newValue.format('DDMMYYYY') + '-00001' });
     }
-  }
+  };
   const handleOk = (e) => {
     e.preventDefault();
     addOrder(formData);
     handleClose();
+    setFormData({
+      orderPO: '',
+      factory: '',
+      customer: '',
+      owner: '',
+      completionDate: '',
+      readyDate: '',
+    });
   };
   //---------------------------factories customers owners items----------------------------//
   React.useEffect(() => {
@@ -94,7 +102,7 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
   }, [owners_state]);
   //------------------filter order----------------------//
   const userID = useSelector((state) => state.auth.user);
-  const handleChangeSearch = async(e) => {
+  const handleChangeSearch = async (e) => {
     filterOrder(e.target.value, userID._id);
   };
   return (
@@ -217,23 +225,23 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
               </Select>
             </FormControl>
           </Grid>
-          <Grid container item xs={12} md={3} lg={3} alignItems="center" justifyContent="Left">
-            <Grid item xs={12} md={12} lg={5}>
-              <div>{t('OrderCompletionDate')}</div>
-            </Grid>
-            <Grid item xs={12} md={12} lg={6}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker onChange={handleChange_C} value={completionDate} />
-              </LocalizationProvider>
-            </Grid>
-          </Grid>
-          <Grid container item xs={12} md={2} lg={2} alignItems="center" justifyContent="Left">
+          <Grid container item xs={12} md={2} lg={2.5} alignItems="center" justifyContent="Left">
             <Grid item xs={12} md={12} lg={3}>
               <div>{t('ReadyDate')}</div>
             </Grid>
             <Grid item xs={12} md={12} lg={8}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker onChange={handleChange_R} value={readyDate} />
+              </LocalizationProvider>
+            </Grid>
+          </Grid>
+          <Grid container item xs={12} md={3} lg={2.5} alignItems="center" justifyContent="Left">
+            <Grid item xs={12} md={12} lg={4}>
+              <div>{t('CompletionDate')}</div>
+            </Grid>
+            <Grid item xs={12} md={12} lg={8}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker onChange={handleChange_C} value={completionDate} />
               </LocalizationProvider>
             </Grid>
           </Grid>
@@ -247,6 +255,6 @@ AddNew.propTypes = {
   getFactories: PropTypes.func.isRequired,
   getCustomers: PropTypes.func.isRequired,
   getOwners: PropTypes.func.isRequired,
-  filterOrder: PropTypes.func.isRequired,
+  filterOrder: PropTypes.func.isRequired
 };
 export default connect(null, { addOrder, getFactories, getCustomers, getOwners, filterOrder })(AddNew);

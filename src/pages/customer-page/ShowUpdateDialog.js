@@ -126,21 +126,6 @@ const ShowUpdateDialog = (props) => {
             </Grid>
             <Grid container item xs={12} md={12} lg={12} alignItems="center" justifyContent="space-between">
               <Grid item xs={12} md={12} lg={4}>
-                <div>{t('CompletionDate')}</div>
-              </Grid>
-              <Grid item xs={12} md={12} lg={8}>
-                <LocalizationProvider dateAdapter={AdapterMoment}>
-                  <DesktopDatePicker
-                    label={t('CompletionDate')}
-                    inputFormat="MM/dd/yyyy"
-                    value={completionDate}
-                    onChange={handleChange_C}
-                  ></DesktopDatePicker>
-                </LocalizationProvider>
-              </Grid>
-            </Grid>
-            <Grid container item xs={12} md={12} lg={12} alignItems="center" justifyContent="space-between">
-              <Grid item xs={12} md={12} lg={4}>
                 <div>{t('ReadyDate')}</div>
               </Grid>
               <Grid item xs={12} md={12} lg={8}>
@@ -150,6 +135,21 @@ const ShowUpdateDialog = (props) => {
                     inputFormat="MM/dd/yyyy"
                     value={readyDate}
                     onChange={handleChange_R}
+                  ></DesktopDatePicker>
+                </LocalizationProvider>
+              </Grid>
+            </Grid>
+            <Grid container item xs={12} md={12} lg={12} alignItems="center" justifyContent="space-between">
+              <Grid item xs={12} md={12} lg={4}>
+                <div>{t('CompletionDate')}</div>
+              </Grid>
+              <Grid item xs={12} md={12} lg={8}>
+                <LocalizationProvider dateAdapter={AdapterMoment}>
+                  <DesktopDatePicker
+                    label={t('CompletionDate')}
+                    inputFormat="MM/dd/yyyy"
+                    value={completionDate}
+                    onChange={handleChange_C}
                   ></DesktopDatePicker>
                 </LocalizationProvider>
               </Grid>

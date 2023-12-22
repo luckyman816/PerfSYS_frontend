@@ -5,7 +5,6 @@
     "Customer" : "Customer",
     "Factory" : "Factory",
     "Owner" : "Owner",
-    "OrderCompletionDate" : "Order Completion Data",
     "ReadyDate" : "Ready Date",
     "Operation" : "Operation",
     "AddNew" : "Add new",

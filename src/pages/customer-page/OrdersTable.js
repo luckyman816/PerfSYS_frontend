@@ -91,16 +91,16 @@ function OrderTableHead({ order_h, orderBy }) {
       label: t('Owner')
     },
     {
-      id: 'orderCompletionDate',
-      align: 'center',
-      disablePadding: false,
-      label: t('OrderCompletionDate')
-    },
-    {
       id: 'readyDate',
       align: 'center',
       disablePadding: false,
       label: t('ReadyDate')
+    },
+    {
+      id: 'orderCompletionDate',
+      align: 'center',
+      disablePadding: false,
+      label: t('OrderCompletionDate')
     },
     {
       id: 'operation',
@@ -286,8 +286,8 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
                     <TableCell align="center">{order.factory}</TableCell>
                     <TableCell align="center">{order.customer}</TableCell>
                     <TableCell align="center">{order.owner}</TableCell>
-                    <TableCell align="center">{order.completionDate?.split('T')[0]}</TableCell>
                     <TableCell align="center">{order.readyDate?.split('T')[0]}</TableCell>
+                    <TableCell align="center">{order.completionDate?.split('T')[0]}</TableCell>
                     <TableCell align="center">
                       <Tooltip title="Order History">
                         <IconButton color="primary" onClick={() => onClickTableRow(order._id)}>
