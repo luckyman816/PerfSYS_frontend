@@ -1,11 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { addOrder } from 'actions/order';
-import { getFactories } from 'actions/factory';
-import { getCustomers } from 'actions/customer';
-import { getOwners } from 'actions/owner';
-import { filterOrder } from 'actions/order';
 import { Grid, Button, Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
@@ -16,6 +9,16 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import SearchIcon from '@mui/icons-material/Search';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import { addOrder } from 'actions/order';
+import { getFactories } from 'actions/factory';
+import { getCustomers } from 'actions/customer';
+import { getOwners } from 'actions/owner';
+import { getSamples } from 'actions/sample';
+import { filterOrder } from 'actions/order';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ShowAddDialog from './ShowAddDialog';
 import { useSelector } from 'react-redux';
@@ -30,15 +33,17 @@ const MenuProps = {
     }
   }
 };
-const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }) => {
+const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, getSamples, filterOrder }) => {
   const { t } = useTranslation();
   const customers_state = useSelector((state) => state.customer.customers);
   const factories_state = useSelector((state) => state.factory.factories);
   const owners_state = useSelector((state) => state.owner.owners);
+  const samples_state = useSelector((state) => state.sample.samples);
   const [customers, setCustomers] = React.useState(['']);
   const [factories, setFactories] = React.useState(['']);
   const [owners, setOwners] = React.useState(['']);
-
+  const [samples, setSamples] = React.useState(['']);
+  const [sample, setSample] = React.useState('');
   //----------------Add new modal display-----------------//
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
@@ -65,9 +70,13 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
   const handleChange_R = (newValue) => {
     setFormData({ ...formData, readyDate: newValue });
     if (orderPO == '') {
-      setFormData({...formData, readyDate: newValue, orderPO: 'PO  ' + newValue.format('DDMMYYYY') + '-00001' });
+      setFormData({ ...formData, readyDate: newValue, orderPO: 'PO  ' + newValue.format('DDMMYYYY') + '-00001' });
     }
   };
+  const handleChangeSample = (e) => {
+    setSample(e.target.value);
+    setFormData({...formData, orderPO : e.target.value});
+  }
   const handleOk = (e) => {
     e.preventDefault();
     addOrder(formData);
@@ -78,7 +87,7 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
       customer: '',
       owner: '',
       completionDate: '',
-      readyDate: '',
+      readyDate: ''
     });
   };
   //---------------------------factories customers owners items----------------------------//
@@ -100,29 +109,71 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
   React.useEffect(() => {
     setOwners(owners_state);
   }, [owners_state]);
+  React.useEffect(() => {
+    getSamples();
+  }, [getSamples]);
+  React.useEffect(() => {
+    setSamples(samples_state);
+  }, [samples_state]);
   //------------------filter order----------------------//
   const userID = useSelector((state) => state.auth.user);
   const handleChangeSearch = async (e) => {
     filterOrder(e.target.value, userID._id);
+  };
+  //---------------Choose sample checkbox---------------//
+  const [sampleState, setSampleState] = useState(false);
+  const handleChangeCheck = (e) => {
+    setSampleState(e.target.checked);
   };
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75} marginTop="5px">
       <Grid item xs={12} md={12} lg={12}>
         <Grid container alignItems="center" justifyContent="space-between" rowSpacing={4.5}>
           <Grid item xs={12} md={12} lg={12}>
-            <Grid container alignItems="center" justifyContent="center" rowSpacing={4.5}>
-              <Grid item xs={12} md={12} lg={2}>
-                <Button
-                  variant="contained"
-                  color="success"
-                  sx={{ background: 'rgb(170,170,170)' }}
-                  startIcon={<ShoppingBasketIcon />}
-                  onClick={handleClickOpen}
-                >
-                  {t('AddNew')}
-                </Button>
+            <Grid container alignItems="center" justifyContent="center" columnSpacing={2.75} rowSpacing={4.5}>
+              <Grid item xs={12} md={12} lg={1.5}>
+                <FormControlLabel
+                  control={<Checkbox checked={sampleState} onChange={handleChangeCheck} name="sample" />}
+                  label={t("ChooseSample")}
+                />
               </Grid>
-              <Grid item xs={12} md={12} lg={10}>
+              <Grid item xs={12} md={12} lg={1.5}>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
+                    {t('SelectSample')}
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    disabled={!sampleState}
+                    name="sample"
+                    value={sample}
+                    MenuProps={MenuProps}
+                    label="Select Sample"
+                    onChange={handleChangeSample}
+                  >
+                    {samples.map((sample_it) => {
+                      return (
+                        <MenuItem id={sample_it._id} value={sample_it.sample}>
+                          {sample_it.sample}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} md={12} lg={1.5}>
+                <TextField
+                  id="outlined-search"
+                  label={`${t('EnterOrder')}`}
+                  type="search"
+                  name="orderPO"
+                  value={orderPO}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12} md={12} lg={5}></Grid>
+              <Grid item xs={12} md={12} lg={2}>
                 <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                   <TextField
                     id="standard-search"
@@ -141,16 +192,6 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
               handleClose={handleClose}
               content={t('AddLetter')}
               handleOk={handleOk}
-            />
-          </Grid>
-          <Grid item xs={12} md={12} lg={2}>
-            <TextField
-              id="outlined-search"
-              label={`${t('EnterOrder')}`}
-              type="search"
-              name="orderPO"
-              value={orderPO}
-              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12} md={12} lg={1.5}>
@@ -225,7 +266,7 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
               </Select>
             </FormControl>
           </Grid>
-          <Grid container item xs={12} md={2} lg={2.5} alignItems="center" justifyContent="Left">
+          <Grid container item xs={12} md={12} lg={2.5} alignItems="center" justifyContent="center">
             <Grid item xs={12} md={12} lg={3}>
               <div>{t('ReadyDate')}</div>
             </Grid>
@@ -235,7 +276,7 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
               </LocalizationProvider>
             </Grid>
           </Grid>
-          <Grid container item xs={12} md={3} lg={2.5} alignItems="center" justifyContent="Left">
+          <Grid container item xs={12} md={12} lg={2.5} alignItems="center" justifyContent="center">
             <Grid item xs={12} md={12} lg={4}>
               <div>{t('CompletionDate')}</div>
             </Grid>
@@ -243,6 +284,19 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker onChange={handleChange_C} value={completionDate} />
               </LocalizationProvider>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} md={12} lg={2}>
+            <Grid container alignItems="center" justifyContent="center">
+              <Button
+                variant="contained"
+                color="success"
+                sx={{ background: 'rgb(170,170,170)' }}
+                startIcon={<ShoppingBasketIcon />}
+                onClick={handleClickOpen}
+              >
+                {t('AddNew')}
+              </Button>
             </Grid>
           </Grid>
         </Grid>
@@ -255,6 +309,7 @@ AddNew.propTypes = {
   getFactories: PropTypes.func.isRequired,
   getCustomers: PropTypes.func.isRequired,
   getOwners: PropTypes.func.isRequired,
+  getSamples: PropTypes.func.isRequired,
   filterOrder: PropTypes.func.isRequired
 };
-export default connect(null, { addOrder, getFactories, getCustomers, getOwners, filterOrder })(AddNew);
+export default connect(null, { addOrder, getFactories, getCustomers, getOwners, getSamples, filterOrder })(AddNew);

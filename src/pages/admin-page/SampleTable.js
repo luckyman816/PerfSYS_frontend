@@ -1,53 +1,49 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { connect } from 'react-redux';
+import DeleteModal from './DeleteModal';
+import PlaylistAddCircleIcon from '@mui/icons-material/PlaylistAddCircle';
+import { Grid, Button, TextField } from '@mui/material';
+import { getSamples, addSample, deleteSample } from 'actions/sample';
 import PropTypes from 'prop-types';
-import { getSamples } from 'actions/sample';
-import { deleteSample } from 'actions/sample';
 import { useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import ShowAddDialog from './ShowAddDialog';
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: 'rgb(200 200 200)',
-    color: theme.palette.common.white
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14
-  }
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0
-  }
-}));
-
-const SampleTable = ({ getSamples, deleteSample }) => {
+const SampleTable = ({ getSamples, addSample, deleteSample }) => {
   const { t } = useTranslation();
   const samples_state = useSelector((state) => state.sample.samples);
-  const [samples, setSamples] = React.useState([]);
+  const [samples, setSamples] = React.useState(['']);
   const [open, setOpen] = React.useState(false);
-  const [id, setId] = React.useState();
-  const handleClickOpen = (id) => {
-    setOpen(true);
-    setId(id);
+  const [sample_id, setSample_Id] = React.useState();
+  const [sampleData, setSampleData] = React.useState({
+    sample: '',
+    location: ''
+  });
+  const { sample, location } = sampleData;
+  const [checked, setChecked] = React.useState([0]);
+  const handleToggle = (value) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setChecked(newChecked);
   };
-  const handleClose = () => {
-    setOpen(false);
+  const handleChange = (e) => setSampleData({ ...sampleData, [e.target.name]: e.target.value.trimEnd() });
+  const handleClick = () => {
+    addSample(sampleData);
+  };
+  const handleDelete = (id) => {
+    setSample_Id(id);
+    setOpen(true);
   };
   React.useEffect(() => {
     getSamples();
@@ -55,49 +51,81 @@ const SampleTable = ({ getSamples, deleteSample }) => {
   React.useEffect(() => {
     setSamples(samples_state);
   }, [samples_state]);
-  const handleOk = (id) => {
-    deleteSample(id);
-    handleClose();
+  const handleEnter = (event) => {
+    if (event?.key !== 'Enter') {
+      return;
+    }
+    addSample(sampleData);
+    setSampleData({sample: ''});
+  };
+  const handleOk = () => {
+    deleteSample(sample_id);
+    setOpen(false)
+  }
+  const handleClose = () => {
+    setOpen(false);
   }
   return (
-    <TableContainer component={Paper} sx={{marginTop: "20px"}}>
-      <Table aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="center">{t('Factory')}</StyledTableCell>
-            <StyledTableCell align="center">{t('Customer')}</StyledTableCell>
-            <StyledTableCell align="center">{t('Owner')}</StyledTableCell>
-            <StyledTableCell align="center">{t('Operation')}</StyledTableCell>
+    <Grid container alignItems="center" justifyContent="space-between">
+      <Grid item xs={12} md={12} lg={12}>
+        <List sx={{ width: '100%', bgcolor: 'background.paper', maxHeight: '120px', overflow: 'auto' }}>
+          {samples.map((sample_item) => {
+            const labelId = `checkbox-list-label-${sample_item}`;
 
-          </TableRow>
-        </TableHead>
-        <TableBody align="center">
-          {samples.length > 0 ? (
-            samples.map((sample) => (
-              <StyledTableRow key={sample._id}>
-                <StyledTableCell component="th" align="center" scope="row">
-                  {sample.factory}
-                </StyledTableCell>
-                <StyledTableCell align="center">{sample.customer}</StyledTableCell>
-                <StyledTableCell align="center">{sample.owner}</StyledTableCell>
-                <StyledTableCell align="center">
-                  <IconButton edge="end" aria-label="comments" onClick={(e) => handleClickOpen(sample._id)}>
+            return (
+              <ListItem
+                key={sample_item}
+                secondaryAction={
+                  <IconButton edge="end" aria-label="comments" onClick={(e) => handleDelete(sample_item._id)}>
                     <DeleteIcon />
                   </IconButton>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))
-          ) : (
-            <h3 style={{ color: 'rgb(150 150 150)' }}>{t('SearchResult')}</h3>
-          )}
-        </TableBody>
-      </Table>
-      <ShowAddDialog open={open} handleClickOpen={handleClickOpen} handleClose={handleClose} content={t('AddLetter')} handleOk={(e) => handleOk(id)} />
-    </TableContainer>
+                }
+                disablePadding
+              >
+                <ListItemButton role={undefined} onClick={handleToggle(sample_item)} dense>
+                  <ListItemText id={labelId} primary={sample_item.sample} />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+        </List>
+      </Grid>
+      <Grid item xs={12} md={8} lg={8}>
+        <TextField
+          id="standard-basic"
+          label={t('AddSample')}
+          type="search"
+          variant="standard"
+          sx={{ margin: '0 5vw 10px 50px' }}
+          name="sample"
+          value={sample}
+          onKeyPress={handleEnter}
+          onChange={handleChange}
+        />
+      </Grid>
+      <Grid item xs={12} md={4} lg={4}>
+        <Button
+          variant="contained"
+          color="success"
+          sx={{ backgroundColor: 'rgb(170,170,170)' }}
+          onClick={handleClick}
+          startIcon={<PlaylistAddCircleIcon />}
+        >
+          {t('AddNew')}
+        </Button>
+      </Grid>
+      <DeleteModal
+        open = {open}
+        handleOk = {handleOk}
+        handleClose = {handleClose}
+        content = {t('DeleteSample')}
+      />
+    </Grid>
   );
 };
 SampleTable.propTypes = {
   getSamples: PropTypes.func.isRequired,
+  addSample: PropTypes.func.isRequired,
   deleteSample: PropTypes.func.isRequired
 };
-export default connect(null, { getSamples, deleteSample })(SampleTable);
+export default connect(null, { getSamples, addSample, deleteSample })(SampleTable);

@@ -19,7 +19,7 @@ const initialState = {
           ...state,
           samples: state.samples.filter((sample) => {
             const lowerPayload = payload.toLowerCase();
-            return sample.factory.toLowerCase().includes(lowerPayload);
+            return sample.sample.toLowerCase().includes(lowerPayload);
           })
         }
       case ADD_SAMPLE:

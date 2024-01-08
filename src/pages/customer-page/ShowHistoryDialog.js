@@ -31,16 +31,16 @@ export default function ShowHistoryDialog(props) {
       label: t('Customer')
     },
     {
-      id: 'orderCompletionDate',
-      align: 'center',
-      disablePadding: false,
-      label: t('OrderCompletionDate')
-    },
-    {
       id: 'readyDate',
       align: 'center',
       disablePadding: false,
       label: t('ReadyDate')
+    },
+    {
+      id: 'orderCompletionDate',
+      align: 'center',
+      disablePadding: false,
+      label: t('OrderCompletionDate')
     },
     {
       id: 'operation',
@@ -116,8 +116,8 @@ export default function ShowHistoryDialog(props) {
                         </TableCell>
                         <TableCell align="center">{order.factory}</TableCell>
                         <TableCell align="center">{order.customer}</TableCell>
-                        <TableCell align="center">{order.completionDate?.split('T')[0]}</TableCell>
                         <TableCell align="center">{order.readyDate?.split('T')[0]}</TableCell>
+                        <TableCell align="center">{order.completionDate?.split('T')[0]}</TableCell>
                         <TableCell align="center">{order.saveDate?.split('T')[0]}</TableCell>
                       </TableRow>
                     );

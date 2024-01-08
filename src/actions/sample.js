@@ -22,6 +22,7 @@ export const deleteSample = (id) => async (dispatch) => {
       type: DELETE_SAMPLE,
       payload: id
     });
+    dispatch(setAlert('Sample is deleted successfully', 'success', true));
   } catch (err) {
     dispatch({
         type: SAMPLE_ERR,

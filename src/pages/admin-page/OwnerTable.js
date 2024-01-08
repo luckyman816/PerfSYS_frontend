@@ -68,7 +68,7 @@ const OwnerTable = ({ getOwners, addOwner, deleteOwner }) => {
   return (
     <Grid container alignItems="center" justifyContent="space-between">
       <Grid item xs={12} md={12} lg={12}>
-        <List sx={{ width: '100%', bgcolor: 'background.paper', maxHeight: '160px', overflow: 'auto' }}>
+        <List sx={{ width: '100%', bgcolor: 'background.paper', maxHeight: '120px', overflow: 'auto' }}>
           {owners.map((owner_item) => {
             const labelId = `checkbox-list-label-${owner_item}`;
 

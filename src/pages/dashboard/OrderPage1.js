@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { getFactories } from 'actions/factory';
 import { getCustomers } from 'actions/customer';
 import { getOwners } from 'actions/owner';
-import { getOrder, getOrdersByCategory } from 'actions/order';
+import { getSamples } from 'actions/sample';
+import { getOrdersByCategory } from 'actions/order';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -24,9 +25,10 @@ const MenuProps = {
     }
   }
 };
-const OrderPage1 = ({ getCustomers, getOwners, getFactories, getOrdersByCategory }) => {
+const OrderPage1 = ({ getCustomers, getOwners, getFactories, getSamples, getOrdersByCategory }) => {
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
+    sample: '',
     factory: '',
     customer: '',
     owner: '',
@@ -34,7 +36,7 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getOrdersByCategory
     toDate: ''
   });
   const alertInfo = useSelector((state) => state.alert);
-  const { factory, customer, owner, fromDate, toDate } = formData;
+  const { sample, factory, customer, owner, fromDate, toDate } = formData;
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -43,39 +45,53 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getOrdersByCategory
   const customers_state = useSelector((state) => state.customer.customers);
   const owners_state = useSelector((state) => state.owner.owners);
   const factories_state = useSelector((state) => state.factory.factories);
+  const samples_state = useSelector((state) => state.sample.samples);
   const [factories, setFactories] = React.useState(['']);
   const [customers, setCustomers] = React.useState(['']);
   const [owners, setOwners] = React.useState(['']);
+  const [samples, setSamples] = React.useState(['']);
   const [category, setCategory] = React.useState('');
   const [disable, setDisable] = React.useState([false, false, false]);
   const handleCategoryChange = async (e) => {
     setCategory(e.target.value);
-    if (e.target.value == 'factory') {
-      setDisable([false, true, true]);
+    if (e.target.value == 'sample') {
+      setDisable([false, true, true, true]);
+    } else if (e.target.value == 'factory') {
+      setDisable([true, false, true, true]);
     } else if (e.target.value == 'customer') {
-      setDisable([true, false, true]);
+      setDisable([true, true, false, true]);
     } else if (e.target.value == 'owner') {
-      setDisable([true, true, false]);
+      setDisable([true, true, true, false]);
     }
   };
+  //-------------factory------------//
   React.useEffect(() => {
     getFactories();
   }, [getFactories]);
   React.useEffect(() => {
     setFactories(factories_state);
   }, [factories_state]);
+  //----------customer-----------//
   React.useEffect(() => {
     getCustomers();
   }, [getCustomers]);
   React.useEffect(() => {
     setCustomers(customers_state);
   }, [customers_state]);
+  //------------owner------------//
   React.useEffect(() => {
     getOwners();
   }, [getOwners]);
   React.useEffect(() => {
     setOwners(owners_state);
   }, [owners_state]);
+  //------------sample-------------//
+  React.useEffect(() => {
+    getSamples();
+  }, [getSamples]);
+  React.useEffect(() => {
+    setSamples(samples_state);
+  }, [samples_state]);
   const handleClickGetOrderByPeriod = async (formData, category) => {
     await getOrdersByCategory(formData, category);
   };
@@ -93,7 +109,7 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getOrdersByCategory
       </Grid>
       <Grid item xs={12} md={12} lg={12} sx={{ paddingBottom: '20px' }}>
         <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
-          <Grid item xs={12} md={6} lg={1.5}>
+          <Grid item xs={12} md={6} lg={1.2}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
                 {t('SelectIndex')}
@@ -101,25 +117,53 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getOrdersByCategory
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="factory"
+                name="category"
                 value={category}
                 MenuProps={MenuProps}
                 label="Select Factory"
                 onChange={handleCategoryChange}
               >
-                <MenuItem id="factory" value="factory" style={{ fontSize: '20px' }}>
+                <MenuItem id="sample" value="sample" style={{ fontSize: '15px' }}>
+                  {t('Sample')}
+                </MenuItem>
+                <MenuItem id="factory" value="factory" style={{ fontSize: '15px' }}>
                   {t('Factory')}
                 </MenuItem>
-                <MenuItem id="customer" value="customer" style={{ fontSize: '20px' }}>
+                <MenuItem id="customer" value="customer" style={{ fontSize: '15px' }}>
                   {t('Customer')}
                 </MenuItem>
-                <MenuItem id="owner" value="owner" style={{ fontSize: '20px' }}>
+                <MenuItem id="owner" value="owner" style={{ fontSize: '15px' }}>
                   {t('Owner')}
                 </MenuItem>
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} md={6} lg={1.5}>
+          <Grid item xs={12} md={6} lg={1.2}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
+                {t('SelectSample')}
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                name="sample"
+                value={sample}
+                disabled={disable[0]}
+                MenuProps={MenuProps}
+                label="Select Sample"
+                onChange={handleChange}
+              >
+                {samples?.map((sample_it) => {
+                  return (
+                    <MenuItem id={sample_it._id} value={sample_it.sample}>
+                      {sample_it.sample}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} md={6} lg={1.2}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
                 {t('SelectFactory')}
@@ -129,7 +173,7 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getOrdersByCategory
                 id="demo-simple-select"
                 name="factory"
                 value={factory}
-                disabled={disable[0]}
+                disabled={disable[1]}
                 MenuProps={MenuProps}
                 label="Select Factory"
                 onChange={handleChange}
@@ -144,7 +188,7 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getOrdersByCategory
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} md={6} lg={1.5}>
+          <Grid item xs={12} md={6} lg={1.2}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
                 {t('SelectCustomer')}
@@ -154,7 +198,7 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getOrdersByCategory
                 id="demo-simple-select"
                 name="customer"
                 value={customer}
-                disabled={disable[1]}
+                disabled={disable[2]}
                 MenuProps={MenuProps}
                 label="Select Customer"
                 onChange={handleChange}
@@ -169,7 +213,7 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getOrdersByCategory
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} md={6} lg={1.5}>
+          <Grid item xs={12} md={6} lg={1.2}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
                 {t('SelectOwner')}
@@ -179,7 +223,7 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getOrdersByCategory
                 id="demo-simple-select"
                 name="owner"
                 value={owner}
-                disabled={disable[2]}
+                disabled={disable[3]}
                 MenuProps={MenuProps}
                 label="Select Customer"
                 onChange={handleChange}
@@ -194,21 +238,21 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getOrdersByCategory
               </Select>
             </FormControl>
           </Grid>
-          <Grid container item xs={12} md={2} lg={2} alignItems="center" justifyContent="Left">
-            <Grid item xs={12} md={12} lg={3}>
+          <Grid container item xs={12} md={2} lg={1.5} alignItems="center" justifyContent="center">
+            <Grid item xs={12} md={12} lg={2}>
               <div>{t('fromDate')}</div>
             </Grid>
-            <Grid item xs={12} md={12} lg={8}>
+            <Grid item xs={12} md={12} lg={10}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker onChange={handleChange_f} value={fromDate} />
               </LocalizationProvider>
             </Grid>
           </Grid>
-          <Grid container item xs={12} md={2} lg={2} alignItems="center" justifyContent="Left">
-            <Grid item xs={12} md={12} lg={3}>
+          <Grid container item xs={12} md={2} lg={1.5} alignItems="center" justifyContent="center">
+            <Grid item xs={12} md={12} lg={1}>
               <div>{t('toDate')}</div>
             </Grid>
-            <Grid item xs={12} md={12} lg={8}>
+            <Grid item xs={12} md={12} lg={10}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker onChange={handleChange_t} value={toDate} />
               </LocalizationProvider>
@@ -239,11 +283,13 @@ OrderPage1.propTypes = {
   getFactories: PropTypes.func.isRequired,
   getCustomers: PropTypes.func.isRequired,
   getOwners: PropTypes.func.isRequired,
+  getSamples: PropTypes.func.isRequired,
   getOrdersByCategory: PropTypes.func.isRequired
 };
 export default connect(null, {
   getFactories,
   getCustomers,
   getOwners,
+  getSamples,
   getOrdersByCategory
 })(OrderPage1);

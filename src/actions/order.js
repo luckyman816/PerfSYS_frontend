@@ -69,8 +69,14 @@ export const getOrdersByPeriod = (formData, category) => async (dispatch) => {
 }
 export const getOrdersByCategory = (formData, category) => async (dispatch) => {
   try {
-    console.log("---------------category", category);
-    if(category == 'factory'){
+    if(category == 'sample') {
+      const res = await api.post('order/getOrdersBySample', formData)
+      dispatch ({
+        type: GET_ORDERS_CATEGORY,
+        payload: res.data
+      });
+    }
+    else if(category == 'factory'){
       const res = await api.post('order/getOrdersByFactory', formData)
       dispatch ({
         type: GET_ORDERS_CATEGORY,
