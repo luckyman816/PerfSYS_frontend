@@ -17,7 +17,6 @@ import { addOrder } from 'actions/order';
 import { getFactories } from 'actions/factory';
 import { getCustomers } from 'actions/customer';
 import { getOwners } from 'actions/owner';
-import { getSamples } from 'actions/sample';
 import { filterOrder } from 'actions/order';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ShowAddDialog from './ShowAddDialog';
@@ -33,17 +32,14 @@ const MenuProps = {
     }
   }
 };
-const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, getSamples, filterOrder }) => {
+const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }) => {
   const { t } = useTranslation();
   const customers_state = useSelector((state) => state.customer.customers);
   const factories_state = useSelector((state) => state.factory.factories);
   const owners_state = useSelector((state) => state.owner.owners);
-  const samples_state = useSelector((state) => state.sample.samples);
   const [customers, setCustomers] = React.useState(['']);
   const [factories, setFactories] = React.useState(['']);
   const [owners, setOwners] = React.useState(['']);
-  const [samples, setSamples] = React.useState(['']);
-  const [sample, setSample] = React.useState('');
   //----------------Add new modal display-----------------//
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
@@ -73,10 +69,6 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, getSamples, f
       setFormData({ ...formData, readyDate: newValue, orderPO: 'PO  ' + newValue.format('DDMMYYYY') + '-00001' });
     }
   };
-  const handleChangeSample = (e) => {
-    setSample(e.target.value);
-    setFormData({...formData, orderPO : e.target.value});
-  }
   const handleOk = (e) => {
     e.preventDefault();
     addOrder(formData);
@@ -109,12 +101,6 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, getSamples, f
   React.useEffect(() => {
     setOwners(owners_state);
   }, [owners_state]);
-  React.useEffect(() => {
-    getSamples();
-  }, [getSamples]);
-  React.useEffect(() => {
-    setSamples(samples_state);
-  }, [samples_state]);
   //------------------filter order----------------------//
   const userID = useSelector((state) => state.auth.user);
   const handleChangeSearch = async (e) => {
@@ -124,6 +110,11 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, getSamples, f
   const [sampleState, setSampleState] = useState(false);
   const handleChangeCheck = (e) => {
     setSampleState(e.target.checked);
+    if(e.target.checked){
+      setFormData({...formData, orderPO: 'sample'})
+    } else {
+      setFormData({...formData, orderPO: ''})
+    }
   };
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75} marginTop="5px">
@@ -138,32 +129,8 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, getSamples, f
                 />
               </Grid>
               <Grid item xs={12} md={12} lg={1.5}>
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
-                    {t('SelectSample')}
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    disabled={!sampleState}
-                    name="sample"
-                    value={sample}
-                    MenuProps={MenuProps}
-                    label="Select Sample"
-                    onChange={handleChangeSample}
-                  >
-                    {samples.map((sample_it) => {
-                      return (
-                        <MenuItem id={sample_it._id} value={sample_it.sample}>
-                          {sample_it.sample}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} md={12} lg={1.5}>
                 <TextField
+                  disabled = {sampleState ? true : false}
                   id="outlined-search"
                   label={`${t('EnterOrder')}`}
                   type="search"
@@ -309,7 +276,6 @@ AddNew.propTypes = {
   getFactories: PropTypes.func.isRequired,
   getCustomers: PropTypes.func.isRequired,
   getOwners: PropTypes.func.isRequired,
-  getSamples: PropTypes.func.isRequired,
   filterOrder: PropTypes.func.isRequired
 };
-export default connect(null, { addOrder, getFactories, getCustomers, getOwners, getSamples, filterOrder })(AddNew);
+export default connect(null, { addOrder, getFactories, getCustomers, getOwners, filterOrder })(AddNew);

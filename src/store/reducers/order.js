@@ -13,7 +13,9 @@ import {
   GET_FACTORY_BY_OWNER,
   FILTER_ORDER,
   GET_ORDERS_PERIOD,
-  GET_ORDERS_CATEGORY
+  GET_ORDERS_PERIOD_SAMPLE,
+  GET_ORDERS_CATEGORY,
+  GET_ORDERS_CATEGORY_SAMPLE
 } from '../../actions/types';
 
 const initialState = {
@@ -56,13 +58,25 @@ function orderReducer(state = initialState, action) {
     case GET_ORDERS_PERIOD:
       return {
         ...state,
-        orders_period : payload,
+        orders_period : payload.filter((item) => item.orderPO == 'sample'),
+        loading: false
+      }
+    case GET_ORDERS_PERIOD_SAMPLE:
+      return {
+        ...state,
+        orders_period : payload.filter((item) => item.orderPO !== 'sample'),
         loading: false
       }
     case GET_ORDERS_CATEGORY:
       return {
         ...state,
-        orders_category : payload,
+        orders_category : payload.filter((item) => item.orderPO == 'sample'),
+        loading: false
+      }
+    case GET_ORDERS_CATEGORY_SAMPLE:
+      return {
+        ...state,
+        orders_category : payload.filter((item) => item.orderPO !== 'sample'),
         loading: false
       }
     case GET_FACTORY_BY_CUSTOMER:

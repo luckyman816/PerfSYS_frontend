@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, Button, InputLabel, MenuItem, FormControl, Select, Typography } from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getFactories } from 'actions/factory';
@@ -76,24 +78,37 @@ const OrderPage = ({ getCustomers, getOwners, getOrdersByPeriod, getFactories })
   React.useEffect(() => {
     setOwners(owners_state);
   }, [owners_state]);
-  const handleClickGetOrderByPeriod = async (formData, category) => {
-    await getOrdersByPeriod(formData, category);
+  const handleClickGetOrderByPeriod = async (sampleState, formData, category) => {
+    await getOrdersByPeriod(sampleState, formData, category);
   };
   const orders_period_state = useSelector((state) => state.order.orders_period);
   const [orders_period, setOrders_Period] = React.useState(orders_period_state);
   React.useEffect(() => {
     setOrders_Period(orders_period_state);
   }, [orders_period_state]);
+   //----------sample state----------//
+   const [sampleState, setSampleState] = React.useState(false)
+   const handleChangeCheck =  (e) => {
+     setSampleState(e.target.checked);
+   }
   return (
     <Grid container rowSpacing={4.5} columnSpacing={4.75} marginTop="5px" marginBottom="20px">
       <Grid item xs={12} md={12} lg={12} sx={{ paddingBottom: '20px' }}>
         <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
-        <Typography variant="h3" color="rgb(150,150,150)" fontFamily="serif" align = "center" width = "85%">{t("AllOrdersByTwo")}</Typography>
+          <Typography variant="h3" color="rgb(150,150,150)" fontFamily="serif" align="center" width="85%">
+            {t('AllOrdersByTwo')}
+          </Typography>
         </Grid>
       </Grid>
       <Grid item xs={12} md={12} lg={12} sx={{ paddingBottom: '20px' }}>
         <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
-          <Grid item xs={12} md={6} lg={1.5}>
+          <Grid item xs={12} md={6} lg={1.2}>
+            <FormControlLabel
+              control={<Checkbox checked={sampleState} onChange={handleChangeCheck} name="sample" />}
+              label={t('OnlySample')}
+            />
+          </Grid>
+          <Grid item xs={12} md={6} lg={1.2}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
                 {t('SelectIndex')}
@@ -119,7 +134,7 @@ const OrderPage = ({ getCustomers, getOwners, getOrdersByPeriod, getFactories })
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} md={6} lg={1.5}>
+          <Grid item xs={12} md={6} lg={1.2}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
                 {t('SelectFactory')}
@@ -144,7 +159,7 @@ const OrderPage = ({ getCustomers, getOwners, getOrdersByPeriod, getFactories })
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} md={6} lg={1.5}>
+          <Grid item xs={12} md={6} lg={1.2}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
                 {t('SelectCustomer')}
@@ -169,7 +184,7 @@ const OrderPage = ({ getCustomers, getOwners, getOrdersByPeriod, getFactories })
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} md={6} lg={1.5}>
+          <Grid item xs={12} md={6} lg={1.2}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
                 {t('SelectOwner')}
@@ -194,21 +209,21 @@ const OrderPage = ({ getCustomers, getOwners, getOrdersByPeriod, getFactories })
               </Select>
             </FormControl>
           </Grid>
-          <Grid container item xs={12} md={2} lg={2} alignItems="center" justifyContent="Left">
-            <Grid item xs={12} md={12} lg={3}>
+          <Grid container item xs={12} md={2} lg={1.5} alignItems="center" justifyContent="Left">
+            <Grid item xs={12} md={12} lg={2}>
               <div>{t('fromDate')}</div>
             </Grid>
-            <Grid item xs={12} md={12} lg={8}>
+            <Grid item xs={12} md={12} lg={10}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker onChange={handleChange_f} value={fromDate} />
               </LocalizationProvider>
             </Grid>
           </Grid>
-          <Grid container item xs={12} md={2} lg={2} alignItems="center" justifyContent="Left">
-            <Grid item xs={12} md={12} lg={3}>
+          <Grid container item xs={12} md={2} lg={1.5} alignItems="center" justifyContent="Left">
+            <Grid item xs={12} md={12} lg={2}>
               <div>{t('toDate')}</div>
             </Grid>
-            <Grid item xs={12} md={12} lg={8}>
+            <Grid item xs={12} md={12} lg={10}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker onChange={handleChange_t} value={toDate} />
               </LocalizationProvider>
@@ -219,7 +234,7 @@ const OrderPage = ({ getCustomers, getOwners, getOrdersByPeriod, getFactories })
               variant="contained"
               sx={{ backgroundColor: 'rgb(200,200,200)' }}
               startIcon={<VisibilityIcon />}
-              onClick={() => handleClickGetOrderByPeriod(formData, category)}
+              onClick={() => handleClickGetOrderByPeriod(sampleState, formData, category)}
             >
               {t('ANALYSIS')}
             </Button>

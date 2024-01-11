@@ -6,10 +6,9 @@ import FactoryIcon from '@mui/icons-material/Factory';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 // material-ui
-import { Grid, Typography, Box, TextField, Tooltip } from '@mui/material';
+import { Grid, Typography, Box, TextField } from '@mui/material';
 import MainCard from 'components/MainCard';
 import CustomerTable from './CustomerTable';
-import SampleTable from './SampleTable';
 import OwnerTable from './OwnerTable';
 import InviteModal from './InviteModal';
 import { useSelector } from 'react-redux';
@@ -19,14 +18,13 @@ import { filterUsers } from 'actions/auth';
 import { filterFactory } from 'actions/factory';
 import { filterCustomer } from 'actions/customer';
 import { filterOwner } from 'actions/owner';
-import { filterSamples } from 'actions/sample';
 import PropTypes from 'prop-types';
 import ShowSnackbar from 'layout/Component/alert';
 import './admin-back.css';
 
 // ==============================|| CUSTOMER PAGE ||============================== //
 
-const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOwner, filterSamples }) => {
+const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOwner }) => {
   const { t } = useTranslation();
   const [open, setOpen] = React.useState(false);
   const alertInfo = useSelector((state) => state.alert);
@@ -89,7 +87,7 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
               <AdminTable />
             </MainCard>
           </Grid>
-          <Grid item xs={12} md={12} lg={3}>
+          <Grid item xs={12} md={12} lg={4}>
             <MainCard sx={{ mt: 2 }} content={false}>
               <Typography variant="h4" color="textSecondary" style={{}}>
                 <div
@@ -119,7 +117,7 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
               <FactoryTable />
             </MainCard>
           </Grid>
-          <Grid item xs={12} md={12} lg={3}>
+          <Grid item xs={12} md={12} lg={4}>
             <MainCard sx={{ mt: 2 }} content={false}>
               <Typography variant="h4" color="textSecondary" style={{}}>
                 <div
@@ -149,7 +147,7 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
               <CustomerTable />
             </MainCard>
           </Grid>
-          <Grid item xs={12} md={12} lg={3}>
+          <Grid item xs={12} md={12} lg={4}>
             <MainCard sx={{ mt: 2 }} content={false}>
               <Typography variant="h4" color="textSecondary" style={{}}>
                 <div
@@ -179,7 +177,7 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
               <OwnerTable />
             </MainCard>
           </Grid>
-          <Grid item xs={12} md={12} lg={3}>
+          {/* <Grid item xs={12} md={12} lg={3}>
             <MainCard sx={{ mt: 2 }} content={false}>
               <Typography variant="h4" color="textSecondary" style={{}}>
                 <div
@@ -208,7 +206,7 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
               </Typography>
               <SampleTable />
             </MainCard>
-          </Grid>
+          </Grid> */}
         </Grid>
       <ShowSnackbar open={alertInfo[0]?.open} content={alertInfo[0]?.msg} type={alertInfo[0]?.alertType} />
     </>
@@ -219,6 +217,5 @@ DashboardDefault.propTypes = {
   filterFactory: PropTypes.func.isRequired,
   filterCustomer: PropTypes.func.isRequired,
   filterOwner: PropTypes.func.isRequired,
-  filterSamples: PropTypes.func.isRequired
 };
-export default connect(null, { filterUsers, filterFactory, filterCustomer, filterOwner, filterSamples })(DashboardDefault);
+export default connect(null, { filterUsers, filterFactory, filterCustomer, filterOwner })(DashboardDefault);

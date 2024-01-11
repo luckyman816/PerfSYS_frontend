@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, Button, InputLabel, MenuItem, FormControl, Select, Typography } from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getFactories } from 'actions/factory';
 import { getCustomers } from 'actions/customer';
 import { getOwners } from 'actions/owner';
-import { getSamples } from 'actions/sample';
 import { getOrdersByCategory } from 'actions/order';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -25,10 +26,9 @@ const MenuProps = {
     }
   }
 };
-const OrderPage1 = ({ getCustomers, getOwners, getFactories, getSamples, getOrdersByCategory }) => {
+const OrderPage1 = ({ getCustomers, getOwners, getFactories, getOrdersByCategory }) => {
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
-    sample: '',
     factory: '',
     customer: '',
     owner: '',
@@ -36,7 +36,7 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getSamples, getOrde
     toDate: ''
   });
   const alertInfo = useSelector((state) => state.alert);
-  const { sample, factory, customer, owner, fromDate, toDate } = formData;
+  const { factory, customer, owner, fromDate, toDate } = formData;
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -45,18 +45,14 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getSamples, getOrde
   const customers_state = useSelector((state) => state.customer.customers);
   const owners_state = useSelector((state) => state.owner.owners);
   const factories_state = useSelector((state) => state.factory.factories);
-  const samples_state = useSelector((state) => state.sample.samples);
   const [factories, setFactories] = React.useState(['']);
   const [customers, setCustomers] = React.useState(['']);
   const [owners, setOwners] = React.useState(['']);
-  const [samples, setSamples] = React.useState(['']);
   const [category, setCategory] = React.useState('');
   const [disable, setDisable] = React.useState([false, false, false]);
   const handleCategoryChange = async (e) => {
     setCategory(e.target.value);
-    if (e.target.value == 'sample') {
-      setDisable([false, true, true, true]);
-    } else if (e.target.value == 'factory') {
+    if (e.target.value == 'factory') {
       setDisable([true, false, true, true]);
     } else if (e.target.value == 'customer') {
       setDisable([true, true, false, true]);
@@ -85,30 +81,37 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getSamples, getOrde
   React.useEffect(() => {
     setOwners(owners_state);
   }, [owners_state]);
-  //------------sample-------------//
-  React.useEffect(() => {
-    getSamples();
-  }, [getSamples]);
-  React.useEffect(() => {
-    setSamples(samples_state);
-  }, [samples_state]);
-  const handleClickGetOrderByPeriod = async (formData, category) => {
-    await getOrdersByCategory(formData, category);
+  const handleClickGetOrderByPeriod = async (sampleState, formData, category) => {
+    await getOrdersByCategory(sampleState, formData, category);
   };
   const orders_category_state = useSelector((state) => state.order.orders_category);
   const [orders_category, setOrders_Period] = React.useState(orders_category_state);
   React.useEffect(() => {
     setOrders_Period(orders_category_state);
   }, [orders_category_state]);
+  //----------sample state----------//
+  const [sampleState, setSampleState] = React.useState(false)
+  const handleChangeCheck =  (e) => {
+    setSampleState(e.target.checked);
+  }
+
   return (
     <Grid container rowSpacing={4.5} columnSpacing={4.75} marginTop="5px" marginBottom="20px">
       <Grid item xs={12} md={12} lg={12} sx={{ paddingBottom: '20px' }}>
         <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
-        <Typography variant="h3" color="rgb(150,150,150)" fontFamily="serif" align = "center" width = "85%">{t("AllOrdersByOne")}</Typography>
+          <Typography variant="h3" color="rgb(150,150,150)" fontFamily="serif" align="center" width="85%">
+            {t('AllOrdersByOne')}
+          </Typography>
         </Grid>
       </Grid>
       <Grid item xs={12} md={12} lg={12} sx={{ paddingBottom: '20px' }}>
         <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
+          <Grid item xs={12} md={6} lg={1.2}>
+            <FormControlLabel
+              control={<Checkbox checked={sampleState} onChange={handleChangeCheck} name="sample" />}
+              label={t('OnlySample')}
+            />
+          </Grid>
           <Grid item xs={12} md={6} lg={1.2}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
@@ -123,9 +126,6 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getSamples, getOrde
                 label="Select Factory"
                 onChange={handleCategoryChange}
               >
-                <MenuItem id="sample" value="sample" style={{ fontSize: '15px' }}>
-                  {t('Sample')}
-                </MenuItem>
                 <MenuItem id="factory" value="factory" style={{ fontSize: '15px' }}>
                   {t('Factory')}
                 </MenuItem>
@@ -135,31 +135,6 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getSamples, getOrde
                 <MenuItem id="owner" value="owner" style={{ fontSize: '15px' }}>
                   {t('Owner')}
                 </MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} md={6} lg={1.2}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
-                {t('SelectSample')}
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                name="sample"
-                value={sample}
-                disabled={disable[0]}
-                MenuProps={MenuProps}
-                label="Select Sample"
-                onChange={handleChange}
-              >
-                {samples?.map((sample_it) => {
-                  return (
-                    <MenuItem id={sample_it._id} value={sample_it.sample}>
-                      {sample_it.sample}
-                    </MenuItem>
-                  );
-                })}
               </Select>
             </FormControl>
           </Grid>
@@ -263,7 +238,7 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getSamples, getOrde
               variant="contained"
               sx={{ backgroundColor: 'rgb(200,200,200)' }}
               startIcon={<VisibilityIcon />}
-              onClick={() => handleClickGetOrderByPeriod(formData, category)}
+              onClick={() => handleClickGetOrderByPeriod(sampleState, formData, category)}
             >
               {t('ANALYSIS')}
             </Button>
@@ -272,7 +247,7 @@ const OrderPage1 = ({ getCustomers, getOwners, getFactories, getSamples, getOrde
       </Grid>
       <Grid item xs={12} md={12} lg={12}>
         <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
-          <AnalysisTable1 data={orders_category}/>
+          <AnalysisTable1 data={orders_category} />
         </Grid>
       </Grid>
       <ShowSnackbar open={alertInfo[0]?.open} content={alertInfo[0]?.msg} type={alertInfo[0]?.alertType} />
@@ -283,13 +258,11 @@ OrderPage1.propTypes = {
   getFactories: PropTypes.func.isRequired,
   getCustomers: PropTypes.func.isRequired,
   getOwners: PropTypes.func.isRequired,
-  getSamples: PropTypes.func.isRequired,
   getOrdersByCategory: PropTypes.func.isRequired
 };
 export default connect(null, {
   getFactories,
   getCustomers,
   getOwners,
-  getSamples,
   getOrdersByCategory
 })(OrderPage1);

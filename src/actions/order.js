@@ -1,3 +1,4 @@
+import { sample } from 'lodash';
 import api from '../utils/api';
 import { setAlert } from './alert';
 import {
@@ -15,7 +16,9 @@ import {
   GET_FACTORY_BY_OWNER,
   FILTER_ORDER,
   GET_ORDERS_PERIOD,
-  GET_ORDERS_CATEGORY
+  GET_ORDERS_CATEGORY,
+  GET_ORDERS_CATEGORY_SAMPLE,
+  GET_ORDERS_PERIOD_SAMPLE
 } from './types';
 
 /*
@@ -40,67 +43,98 @@ export const getOrders = (id) => async (dispatch) => {
     });
   }
 };
-export const getOrdersByPeriod = (formData, category) => async (dispatch) => {
+export const getOrdersByPeriod = (sampleState, formData, category) => async (dispatch) => {
   try {
-    if(category == 'factory'){
-      const res = await api.post('order/getFactoryOrdersByPeriod', formData)
-      dispatch ({
-        type: GET_ORDERS_PERIOD,
-        payload: res.data
-      });
+    if (category == 'factory') {
+      const res = await api.post('order/getFactoryOrdersByPeriod', formData);
+      if (sampleState) {
+        dispatch({
+          type: GET_ORDERS_PERIOD,
+          payload: res.data
+        });
+      } else {
+        dispatch({
+          type: GET_ORDERS_PERIOD_SAMPLE,
+          payload: res.data
+        });
+      }
+    } else if (category == 'customer') {
+      const res = await api.post('order/getCustomerOrdersByPeriod', formData);
+      if (sampleState) {
+        dispatch({
+          type: GET_ORDERS_PERIOD,
+          payload: res.data
+        });
+      } else {
+        dispatch({
+          type: GET_ORDERS_PERIOD_SAMPLE,
+          payload: res.data
+        });
+      }
+    } else if (category == 'owner') {
+      const res = await api.post('order/getOwnerOrdersByPeriod', formData);
+      if (sampleState) {
+        dispatch({
+          type: GET_ORDERS_PERIOD,
+          payload: res.data
+        });
+      } else {
+        dispatch({
+          type: GET_ORDERS_PERIOD_SAMPLE,
+          payload: res.data
+        });
+      }
     }
-    else if(category == 'customer'){
-      const res = await api.post('order/getCustomerOrdersByPeriod', formData)
-      dispatch ({
-        type: GET_ORDERS_PERIOD,
-        payload: res.data
-      });
-    }
-    else if(category == 'owner'){
-      const res = await api.post('order/getOwnerOrdersByPeriod', formData)
-      dispatch ({
-        type: GET_ORDERS_PERIOD,
-        payload: res.data
-      });
-    }
-  }catch (err) {
+  } catch (err) {
     dispatch(setAlert('Input is not enough', 'warning', true));
   }
-}
-export const getOrdersByCategory = (formData, category) => async (dispatch) => {
+};
+export const getOrdersByCategory = (sampleState, formData, category) => async (dispatch) => {
   try {
-    if(category == 'sample') {
-      const res = await api.post('order/getOrdersBySample', formData)
-      dispatch ({
-        type: GET_ORDERS_CATEGORY,
-        payload: res.data
-      });
+    if (category == 'factory') {
+      const res = await api.post('order/getOrdersByFactory', formData);
+      if (sampleState) {
+        dispatch({
+          type: GET_ORDERS_CATEGORY,
+          payload: res.data
+        });
+      } else {
+        dispatch({
+          type: GET_ORDERS_CATEGORY_SAMPLE,
+          payload: res.data
+        });
+      }
+    } else if (category == 'customer') {
+      const res = await api.post('order/getOrdersByCustomer', formData);
+      if (sampleState) {
+        dispatch({
+          type: GET_ORDERS_CATEGORY,
+          payload: res.data
+        });
+      } else {
+        dispatch({
+          type: GET_ORDERS_CATEGORY_SAMPLE,
+          payload: res.data
+        });
+      }
+    } else if (category == 'owner') {
+      const res = await api.post('order/getOrdersByOwner', formData);
+      if (sampleState) {
+        dispatch({
+          type: GET_ORDERS_CATEGORY,
+          payload: res.data
+        });
+      } else {
+        dispatch({
+          type: GET_ORDERS_CATEGORY_SAMPLE,
+          payload: res.data
+        });
+      }
     }
-    else if(category == 'factory'){
-      const res = await api.post('order/getOrdersByFactory', formData)
-      dispatch ({
-        type: GET_ORDERS_CATEGORY,
-        payload: res.data
-      });
-    }
-    else if(category == 'customer'){
-      const res = await api.post('order/getOrdersByCustomer', formData)
-      dispatch ({
-        type: GET_ORDERS_CATEGORY,
-        payload: res.data
-      });
-    }
-    else if(category == 'owner'){
-      const res = await api.post('order/getOrdersByOwner', formData)
-      dispatch ({
-        type: GET_ORDERS_CATEGORY,
-        payload: res.data
-      });
-    }
-  }catch (err) {
+  } catch (err) {
     dispatch(setAlert('Input is not enough', 'warning', true));
   }
-}
+};
 
 export const filterOrder = (filterOrder, id) => async (dispatch) => {
   try {
@@ -232,7 +266,7 @@ export const deleteOrder = (id) => async (dispatch) => {
 // Add post
 export const addOrder = (formData) => async (dispatch) => {
   try {
-    console.log("-------formData-------", formData);
+    console.log('-------formData-------', formData);
     const res = await api.post('/order/create', formData);
     dispatch({
       type: ADD_ORDER,
