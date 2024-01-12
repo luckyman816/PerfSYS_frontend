@@ -98,5 +98,6 @@
     "DeleteOwner" : "你真的要删除所有者吗？",
     "DeleteSample" : "你真的会删除样本吗？",
     "Difference" : "差异",
-    "Total" : "总计"
+    "Total" : "总计",
+    "OnlySample" : "仅样品"
 }

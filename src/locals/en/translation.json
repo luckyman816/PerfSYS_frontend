@@ -98,5 +98,6 @@
     "DeleteOwner" : "Do you really delete owner?",
     "DeleteSample" : "Do you really delete sample?",
     "Difference" : "Difference",
-    "Total" : "Total"
+    "Total" : "Total",
+    "OnlySample" : "Only Sample"
 }
