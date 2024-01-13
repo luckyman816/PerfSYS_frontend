@@ -65,9 +65,6 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
   const handleChange_C = (newValue) => setFormData({ ...formData, completionDate: newValue });
   const handleChange_R = (newValue) => {
     setFormData({ ...formData, readyDate: newValue });
-    if (orderPO == '') {
-      setFormData({ ...formData, readyDate: newValue, orderPO: 'PO  ' + newValue.format('DDMMYYYY') + '-00001' });
-    }
   };
   const handleOk = (e) => {
     e.preventDefault();
