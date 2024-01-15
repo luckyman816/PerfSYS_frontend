@@ -60,12 +60,10 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
     cScore: '',
     pScore: ''
   });
-  const { orderPO, factory, customer, owner, completionDate, readyDate } = formData;
+  const { orderPO, factory, customer, owner, completionDate, readyDate, qScore, cScore, pScore } = formData;
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
   const handleChange_C = (newValue) => setFormData({ ...formData, completionDate: newValue });
-  const handleChange_R = (newValue) => {
-    setFormData({ ...formData, readyDate: newValue });
-  };
+  const handleChange_R = (newValue) => setFormData({ ...formData, readyDate: newValue });
   const handleOk = (e) => {
     e.preventDefault();
     addOrder(formData);
@@ -76,7 +74,10 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
       customer: '',
       owner: '',
       completionDate: '',
-      readyDate: ''
+      readyDate: '',
+      pScore: '',
+      qScore : '',
+      cScore: ''
     });
   };
   //---------------------------factories customers owners items----------------------------//
@@ -107,10 +108,10 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
   const [sampleState, setSampleState] = useState(false);
   const handleChangeCheck = (e) => {
     setSampleState(e.target.checked);
-    if(e.target.checked){
-      setFormData({...formData, orderPO: 'sample'})
+    if (e.target.checked) {
+      setFormData({ ...formData, orderPO: 'sample' });
     } else {
-      setFormData({...formData, orderPO: ''})
+      setFormData({ ...formData, orderPO: '' });
     }
   };
   return (
@@ -122,12 +123,12 @@ const AddNew = ({ addOrder, getFactories, getCustomers, getOwners, filterOrder }
               <Grid item xs={12} md={12} lg={1.5}>
                 <FormControlLabel
                   control={<Checkbox checked={sampleState} onChange={handleChangeCheck} name="sample" />}
-                  label={t("ChooseSample")}
+                  label={t('ChooseSample')}
                 />
               </Grid>
               <Grid item xs={12} md={12} lg={1.5}>
                 <TextField
-                  disabled = {sampleState ? true : false}
+                  disabled={sampleState ? true : false}
                   id="outlined-search"
                   label={`${t('EnterOrder')}`}
                   type="search"

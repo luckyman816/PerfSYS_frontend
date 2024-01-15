@@ -176,13 +176,21 @@ export const getFactoryByOwner = (owner) => async (dispatch) => {
   }
 };
 
-export const getScoreByCustomer = (customer) => async (dispatch) => {
+export const getScoreByCustomer = (customer, sample) => async (dispatch) => {
   try {
-    const res = await api.get(`order/getScoreCustomer/${customer}`);
-    dispatch({
-      type: GET_SCORE_CUSTOMER,
-      payload: res.data
-    });
+    if(sample == true){
+      const res = await api.get(`order/getScoreCustomerSample/${customer}`);
+      dispatch({
+        type: GET_SCORE_CUSTOMER,
+        payload: res.data
+      });
+    } else{
+      const res = await api.get(`order/getScoreCustomer/${customer}`);
+      dispatch({
+        type: GET_SCORE_CUSTOMER,
+        payload: res.data
+      });
+    }
   } catch (err) {
     dispatch({
       type: ORDER_ERROR,
@@ -190,27 +198,41 @@ export const getScoreByCustomer = (customer) => async (dispatch) => {
     });
   }
 };
-export const getScoreByFactory = (factory) => async (dispatch) => {
+export const getScoreByFactory = (factory, sample) => async (dispatch) => {
+  console.log("---------sample-----", sample);
   try {
-    const res = await api.get(`order/getScoreFactory/${factory}`);
-    dispatch({
-      type: GET_SCORE_FACTORY,
-      payload: res.data
-    });
+    if(sample == true){
+      const res = await api.get(`order/getScoreFactorySample/${factory}`);
+      dispatch({
+        type: GET_SCORE_FACTORY,
+        payload: res.data
+      });
+    } else {
+      const res = await api.get(`order/getScoreFactory/${factory}`);
+      dispatch({
+        type: GET_SCORE_FACTORY,
+        payload: res.data
+      });
+    }
   } catch (err) {
-    dispatch({
-      type: ORDER_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
+    dispatch(setAlert('Order score is not available', 'warning', true));
   }
 };
-export const getScoreByOwner = (owner) => async (dispatch) => {
+export const getScoreByOwner = (owner, sample) => async (dispatch) => {
   try {
-    const res = await api.get(`order/getScoreOwner/${owner}`);
-    dispatch({
-      type: GET_SCORE_OWNER,
-      payload: res.data
-    });
+    if(sample == true){
+      const res = await api.get(`order/getScoreOwnerSample/${owner}`);
+      dispatch({
+        type: GET_SCORE_OWNER,
+        payload: res.data
+      });
+    } else{
+      const res = await api.get(`order/getScoreOwner/${owner}`);
+      dispatch({
+        type: GET_SCORE_OWNER,
+        payload: res.data
+      });
+    }
   } catch (err) {
     dispatch({
       type: ORDER_ERROR,

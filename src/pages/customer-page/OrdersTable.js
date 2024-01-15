@@ -175,9 +175,10 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
     setOpen_u(false);
   };
   //--------------Open Complete dialog-----------//
-  const handleClickOpen_c = (orderID, userID) => {
+  const handleClickOpen_c = (orderID, userID, order) => {
     setOrderID(orderID);
     setUserId(userID);
+    setOrder(order);
     setOpen_c(true);
   };
   const handleClose_c = () => {
@@ -275,11 +276,11 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
                     <TableCell align="center">
                       {order.qScore ? (
                         <div style={{ backgroundColor: '#71eb34', width: 'auto', height: '20px', borderRadius: '5px', color: 'white' }}>
-                          {t('Completed')}
+                          {t('NotCompleted')}
                         </div>
                       ) : (
                         <div style={{ backgroundColor: '#eb3734', width: 'auto', height: '20px', borderRadius: '5px', color: 'white' }}>
-                          {t('NotCompleted')}
+                          {t('Completed')}
                         </div>
                       )}
                     </TableCell>
@@ -305,7 +306,7 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Completion Order">
-                        <IconButton color="success" onClick={() => handleClickOpen_c(order._id, order.userId)}>
+                        <IconButton color="success" onClick={() => handleClickOpen_c(order._id, order.userId, order)}>
                           <FactCheckIcon />
                         </IconButton>
                       </Tooltip>
@@ -341,6 +342,7 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
       <ShowCompletionDialog
         open={open_c}
         id={orderID}
+        order = {order}
         userId={userId}
         updateScore={updateScore}
         handleClose={handleClose_c}

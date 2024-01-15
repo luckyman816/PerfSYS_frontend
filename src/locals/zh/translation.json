@@ -6,6 +6,7 @@
     "Factory" : "工  厂",
     "Owner" : "业  主",
     "Sample" : "样  本",
+    "OnlySample" : "仅为样本",
     "ReadyDate" : "就绪日期",
     "Operation" : "运行",
     "AddNew" : "添加新内容",
@@ -24,8 +25,8 @@
     "AddFactory": "添加工厂",
     "AddCustomer": "添加客户",
     "AddOwner": "添加所有者",
-    "Completed": "已完成",
-    "NotCompleted": "未完成",
+    "Completed": "分数存在",
+    "NotCompleted": "分数不存在",
     "Apply": "应用",
     "Decline": "下降",
     "DeleteLetter": "你真的要删除这张订单吗？",
@@ -54,7 +55,7 @@
     "UpdatedDate" : "更新日期",
     "SatisticsOverview" : "统计概览",
     "AdminPage" : "管理页面",
-    "CustomerPage" : "客户页面",
+    "OrderInput" : "订单输入",
     "HIGHRESPONSIBILITY" : "高 责 任",
     "KINDSERVICE" : "亲 切 服 务",
     "HIGHCREDIT" : "高 学 分",
@@ -98,6 +99,5 @@
     "DeleteOwner" : "你真的要删除所有者吗？",
     "DeleteSample" : "你真的会删除样本吗？",
     "Difference" : "差异",
-    "Total" : "总计",
-    "OnlySample" : "仅样品"
+    "Total" : "总计"
 }

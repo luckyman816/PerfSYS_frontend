@@ -39,7 +39,7 @@ const Navigation = () => {
       },
       {
         id: 'util-customer',
-        title: t('Customer'),
+        title: t('OrderInput'),
         type: 'item',
         url: '/customerManage',
         icon: icons.ShoppingCartOutlined

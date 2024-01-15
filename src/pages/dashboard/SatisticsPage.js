@@ -10,6 +10,8 @@ import { getScoreByOwner } from 'actions/order';
 import { getFactoryByCustomer } from 'actions/order';
 import { getFactoryByOwner } from 'actions/order';
 import { Grid, Button, InputLabel, MenuItem, FormControl, Select, Typography } from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import MonthlyBarChart from './MonthlyBarChart';
 import { useSelector } from 'react-redux';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -84,9 +86,9 @@ const SatisticsPage = ({
   const [average_qScore, setAverage_QScore] = useState(0);
   const [average_cScore, setAverage_CScore] = useState(0);
   const [average_pScore, setAverage_PScore] = useState(0);
-  const handleClickCustomer = async (c) => {
+  const handleClickCustomer = async (c,c_sample) => {
     if (c !== '') {
-      await getScoreByCustomer(c);
+      await getScoreByCustomer(c, c_sample);
     }
   };
 
@@ -112,16 +114,16 @@ const SatisticsPage = ({
     setAverage_CScore(caculateCScore);
     setAverage_PScore(caculatePScore);
   }, [getScoreByCustomer, score_customer_state]);
+  console.log('-----------factory---------', average_qScore);
 
-  console.log('-------average--------', average_qScore);
   //----------------------- factory analysis function------------------------//
   const score_factory_state = useSelector((state) => state.order.score_factory);
   const [average_qScore_f, setAverage_QScore_f] = useState(0);
   const [average_cScore_f, setAverage_CScore_f] = useState(0);
   const [average_pScore_f, setAverage_PScore_f] = useState(0);
-  const handleClickFactory = async (f) => {
+  const handleClickFactory = async (f, f_sample) => {
     if (f !== '') {
-      await getScoreByFactory(f);
+      await getScoreByFactory(f, f_sample);
     }
   };
   React.useEffect(() => {
@@ -151,9 +153,9 @@ const SatisticsPage = ({
   const [average_qScore_o, setAverage_QScore_o] = useState(0);
   const [average_cScore_o, setAverage_CScore_o] = useState(0);
   const [average_pScore_o, setAverage_PScore_o] = useState(0);
-  const handleClickOwner = async (o) => {
+  const handleClickOwner = async (o, o_sample) => {
     if (o !== '') {
-      await getScoreByOwner(o);
+      await getScoreByOwner(o, o_sample);
     }
   };
   React.useEffect(() => {
@@ -202,6 +204,16 @@ const SatisticsPage = ({
   React.useEffect(() => {
     setFactory_By_Owner(factory_by_owner_state);
   }, [factory_by_owner_state, getFactoryByOwner]);
+  //----------sample-state----------------//
+  const [sampleState, setSampleState] = useState({
+    factory_sample: false,
+    customer_sample: false,
+    owner_sample: false
+  });
+  const { factory_sample, customer_sample, owner_sample } = sampleState;
+  const handleChangeCheck = (e) => {
+    setSampleState({ ...sampleState, [e.target.name]: e.target.checked });
+  };
   return (
     <Grid container rowSpacing={7.5} columnSpacing={2.75} marginTop="5px" marginBottom="20px">
       <Grid item xs={12} md={12} lg={12}>
@@ -209,11 +221,15 @@ const SatisticsPage = ({
           <Typography variant="h3" color="rgb(150,150,150)" fontFamily="serif" align="center" width="85%">
             {t('ScoreSatisticsDesc')}
           </Typography>
-        </Grid>
+        </Grid>   
       </Grid>
       <Grid item xs={12} md={12} lg={12}>
         <Grid container alignItems="center" justifyContent="space-around" rowSpacing={4.5}>
           <Grid item xs={12} md={6} lg={2}>
+            <FormControlLabel
+              control={<Checkbox checked={factory_sample} onChange={handleChangeCheck} name="factory_sample" />}
+              label={t('OnlySample')}
+            />
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
                 {t('SelectFactory')}
@@ -242,12 +258,17 @@ const SatisticsPage = ({
               variant="contained"
               sx={{ backgroundColor: 'rgb(200,200,200)' }}
               startIcon={<VisibilityIcon />}
-              onClick={() => handleClickFactory(factory)}
+              onClick={() => handleClickFactory(factory, factory_sample)}
+              style={{marginTop: '35px'}}
             >
               {t('ANALYSIS')}
             </Button>
           </Grid>
           <Grid item xs={12} md={6} lg={2}>
+            <FormControlLabel
+              control={<Checkbox checked={customer_sample} onChange={handleChangeCheck} name="customer_sample" />}
+              label={t('OnlySample')}
+            />
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
                 {t('SelectCustomer')}
@@ -277,11 +298,16 @@ const SatisticsPage = ({
               sx={{ backgroundColor: 'rgb(200,200,200)' }}
               startIcon={<VisibilityIcon />}
               onClick={() => handleClickCustomer(customer)}
+              style={{marginTop: '35px'}}
             >
               {t('ANALYSIS')}
             </Button>
           </Grid>
           <Grid item xs={12} md={6} lg={2}>
+            <FormControlLabel
+              control={<Checkbox checked={owner_sample} onChange={handleChangeCheck} name="owner_sample" />}
+              label={t('OnlySample')}
+            />
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label" sx={{ fontSize: '15px' }}>
                 {t('SelectOwner')}
@@ -311,6 +337,7 @@ const SatisticsPage = ({
               sx={{ backgroundColor: 'rgb(200,200,200)' }}
               startIcon={<VisibilityIcon />}
               onClick={() => handleClickOwner(owner)}
+              style={{marginTop: '35px'}}
             >
               {t('ANALYSIS')}
             </Button>
