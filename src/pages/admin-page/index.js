@@ -50,9 +50,6 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
     await filterOwner(e.target.value);
   };
   // --------------sample item table filter--------//
-  const handleChange_s = async (e) => {
-    await filterSamples(e.target.value);
-  };
   return (
     <>
       <Grid container rowSpacing={4.5} columnSpacing={2.75} sx={{}}>
