@@ -114,8 +114,7 @@ const SatisticsPage = ({
     setAverage_CScore(caculateCScore);
     setAverage_PScore(caculatePScore);
   }, [getScoreByCustomer, score_customer_state]);
-  console.log('-----------factory---------', average_qScore);
-
+  console.log("--------customer score-----------", score_customer_state)
   //----------------------- factory analysis function------------------------//
   const score_factory_state = useSelector((state) => state.order.score_factory);
   const [average_qScore_f, setAverage_QScore_f] = useState(0);
@@ -297,7 +296,7 @@ const SatisticsPage = ({
               variant="contained"
               sx={{ backgroundColor: 'rgb(200,200,200)' }}
               startIcon={<VisibilityIcon />}
-              onClick={() => handleClickCustomer(customer)}
+              onClick={() => handleClickCustomer(customer, customer_sample)}
               style={{marginTop: '35px'}}
             >
               {t('ANALYSIS')}
@@ -336,7 +335,7 @@ const SatisticsPage = ({
               variant="contained"
               sx={{ backgroundColor: 'rgb(200,200,200)' }}
               startIcon={<VisibilityIcon />}
-              onClick={() => handleClickOwner(owner)}
+              onClick={() => handleClickOwner(owner, owner_sample)}
               style={{marginTop: '35px'}}
             >
               {t('ANALYSIS')}

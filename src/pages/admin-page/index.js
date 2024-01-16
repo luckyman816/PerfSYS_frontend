@@ -49,6 +49,10 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
   const handleChange_o = async (e) => {
     await filterOwner(e.target.value);
   };
+  // --------------sample item table filter--------//
+  const handleChange_s = async (e) => {
+    await filterSamples(e.target.value);
+  };
   return (
     <>
       <Grid container rowSpacing={4.5} columnSpacing={2.75} sx={{}}>
@@ -173,6 +177,36 @@ const DashboardDefault = ({ filterUsers, filterFactory, filterCustomer, filterOw
               <OwnerTable />
             </MainCard>
           </Grid>
+          {/* <Grid item xs={12} md={12} lg={3}>
+            <MainCard sx={{ mt: 2 }} content={false}>
+              <Typography variant="h4" color="textSecondary" style={{}}>
+                <div
+                  style={{
+                    margin: '10px 0 10px 10px',
+                    color: 'rgb(150 150 150)',
+                    fontFamily: 'serif',
+                    fontSize: '30px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                  }}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                    <DirectionsWalkIcon sx={{ mr: 1, my: 0.5 }} />
+                    <TextField
+                      id="standard-search"
+                      label={t('SearchSample')}
+                      type="search"
+                      onChange={handleChange_s}
+                      variant="standard"
+                    ></TextField>
+                  </Box>
+                  <div style={{ borderBottom: '1px solid grey', paddingRight: '2%' }}>{t('Sample')}</div>
+                </div>
+              </Typography>
+              <SampleTable />
+            </MainCard>
+          </Grid> */}
         </Grid>
       <ShowSnackbar open={alertInfo[0]?.open} content={alertInfo[0]?.msg} type={alertInfo[0]?.alertType} />
     </>
