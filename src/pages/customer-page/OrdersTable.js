@@ -276,11 +276,11 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
                     <TableCell align="center">
                       {order.qScore ? (
                         <div style={{ backgroundColor: '#71eb34', width: 'auto', height: '20px', borderRadius: '5px', color: 'white' }}>
-                          {t('NotCompleted')}
+                          {t('Completed')}
                         </div>
                       ) : (
                         <div style={{ backgroundColor: '#eb3734', width: 'auto', height: '20px', borderRadius: '5px', color: 'white' }}>
-                          {t('Completed')}
+                          {t('NotCompleted')}
                         </div>
                       )}
                     </TableCell>
