@@ -107,9 +107,9 @@ const SatisticsPage = ({
           num++;
         }
       });
-    let caculateQScore = sum_Q == 0 ? 0 : Math.ceil(sum_Q / num);
-    let caculateCScore = sum_C == 0 ? 0 : Math.ceil(sum_C / num);
-    let caculatePScore = sum_P == 0 ? 0 : Math.ceil(sum_P / num);
+    let caculateQScore = sum_Q == 0 ? 0 : (sum_Q / num).toExponential(2);
+    let caculateCScore = sum_C == 0 ? 0 : (sum_C / num).toExponential(2);
+    let caculatePScore = sum_P == 0 ? 0 : (sum_P / num).toExponential(2);
     setAverage_QScore(caculateQScore);
     setAverage_CScore(caculateCScore);
     setAverage_PScore(caculatePScore);
@@ -140,9 +140,9 @@ const SatisticsPage = ({
           num_f++;
         }
       });
-    let caculateQScore_f = sum_Q_f == 0 ? 0 : Math.ceil(sum_Q_f / num_f);
-    let caculateCScore_f = sum_C_f == 0 ? 0 : Math.ceil(sum_C_f / num_f);
-    let caculatePScore_f = sum_P_f == 0 ? 0 : Math.ceil(sum_P_f / num_f);
+    let caculateQScore_f = sum_Q_f == 0 ? 0 : (sum_Q_f / num_f).toExponential(2);
+    let caculateCScore_f = sum_C_f == 0 ? 0 : (sum_C_f / num_f).toExponential(2);
+    let caculatePScore_f = sum_P_f == 0 ? 0 : (sum_P_f / num_f).toExponential(2);
     setAverage_QScore_f(caculateQScore_f);
     setAverage_CScore_f(caculateCScore_f);
     setAverage_PScore_f(caculatePScore_f);
@@ -172,9 +172,9 @@ const SatisticsPage = ({
           num_o++;
         }
       });
-    let caculateQScore_o = sum_Q_o == 0 ? 0 : Math.ceil(sum_Q_o / num_o);
-    let caculateCScore_o = sum_C_o == 0 ? 0 : Math.ceil(sum_C_o / num_o);
-    let caculatePScore_o = sum_P_o == 0 ? 0 : Math.ceil(sum_P_o / num_o);
+    let caculateQScore_o = sum_Q_o == 0 ? 0 : (sum_Q_o / num_o).toExponential(2);
+    let caculateCScore_o = sum_C_o == 0 ? 0 : (sum_C_o / num_o).toExponential(2);
+    let caculatePScore_o = sum_P_o == 0 ? 0 : (sum_P_o / num_o).toExponential(2);
     setAverage_QScore_o(caculateQScore_o);
     setAverage_CScore_o(caculateCScore_o);
     setAverage_PScore_o(caculatePScore_o);

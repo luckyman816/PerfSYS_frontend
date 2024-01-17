@@ -102,9 +102,9 @@ const AnalysisTable1 = (props) => {
             <TableCell rowSpan={2}/>
             <TableCell rowSpan={2}/>
             <TableCell rowSpan={2}/>
-            <TableCell rowSpan={2}>{t('Average')}</TableCell>
-            <TableCell rowSpan={2}>{average_v}</TableCell>
-            <TableCell rowSpan={2}>{t('Total')}</TableCell>
+            <TableCell rowSpan={2}/>
+            <TableCell rowSpan={2}/>
+            <TableCell align="center">{average_v}</TableCell>
             <TableCell align="center">{average ? average : 0}%</TableCell>
           </TableRow>
         </TableBody>
