@@ -100,7 +100,7 @@ function OrderTableHead({ order_h, orderBy }) {
       id: 'orderCompletionDate',
       align: 'center',
       disablePadding: false,
-      label: t('OrderCompletionDate')
+      label: t('CompletionDate')
     },
     {
       id: 'operation',

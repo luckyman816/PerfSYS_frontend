@@ -81,7 +81,7 @@
     "SelectIndex": "选择类别",
     "Performance": "性能",
     "ScoreAnalysis": "按分数统计的分析",
-    "OrderAnalysis": "阶次饱和度分析",
+    "OrderAnalysis": "订单统计分析",
     "OrderSample": "订购样品",
     "AddSample": "添加样本",
     "AllOrdersByOne": "在这里，您可以获得工厂、客户或所有者的所有订单。",
@@ -99,5 +99,6 @@
     "DeleteOwner" : "你真的要删除所有者吗？",
     "DeleteSample" : "你真的会删除样本吗？",
     "Difference" : "差异",
-    "Total" : "总计"
+    "Total" : "总计",
+    "Logout" : "签出"
 }

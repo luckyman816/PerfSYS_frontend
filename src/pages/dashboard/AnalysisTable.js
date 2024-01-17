@@ -34,6 +34,7 @@ const AnalysisTable = (props) => {
   const { t } = useTranslation();
   const [analysisData, setAnalysisData] = useState(props.data);
   const [average, setAverage] = useState();
+  const [average_v, setAverage_v] = useState();
   React.useEffect(() => {
     setAnalysisData(props.data);
   }, [props.data]);
@@ -60,16 +61,24 @@ const AnalysisTable = (props) => {
     }
   }
   React.useEffect(() => {
-    let sum = 0,
-      num = 0;
+    let num = 0,
+      ok_num = 0;
     props.data?.map((it) => {
       num++;
-      if ((moment(it.completionDate?.split('T')[0]) - moment(it.readyDate?.split('T')[0])) / (1000 * 3600 * 24) > 0) {
-        sum += 100;
+      if (((moment(it.completionDate?.split('T')[0]) - moment(it.readyDate?.split('T')[0])) / (1000 * 3600 * 24)+1) > 0) {
+        ok_num ++ ;
       }
     });
-    setAverage(Math.ceil(sum / num));
+    setAverage(Math.ceil(ok_num / num * 100));
   }, [props.data]);
+  React.useEffect(() => {
+    let sum = 0, num = 0;
+    props.data?.map((it) => {
+      num ++ ;
+      sum += ((moment(it.completionDate?.split('T')[0]) - moment(it.readyDate?.split('T')[0])) / (1000 * 3600 * 24)+1);
+    });
+    setAverage_v(Math.ceil(sum / num));
+  }, [props.data])
   return (
     <TableContainer component={Paper} style={{ fontSize: '20px' }}>
       <Table aria-label="customized table">
@@ -102,10 +111,10 @@ const AnalysisTable = (props) => {
                 <StyledTableCell align="center">{it.readyDate?.split('T')[0]}</StyledTableCell>
                 <StyledTableCell align="center">{it.completionDate?.split('T')[0]}</StyledTableCell>
                 <StyledTableCell align="center">
-                  {(moment(it.completionDate?.split('T')[0])- moment(it.readyDate?.split('T')[0])) / (1000 * 3600 * 24)}
+                  {(moment(it.completionDate?.split('T')[0])- moment(it.readyDate?.split('T')[0])) / (1000 * 3600 * 24)+1}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {(moment(it.completionDate?.split('T')[0]) - moment(it.readyDate?.split('T')[0])) / (1000 * 3600 * 24) > 0
+                  {((moment(it.completionDate?.split('T')[0]) - moment(it.readyDate?.split('T')[0])) / (1000 * 3600 * 24) + 1) > 0
                     ? '100%'
                     : '0%'}
                 </StyledTableCell>
@@ -117,8 +126,8 @@ const AnalysisTable = (props) => {
           <TableRow>
             <TableCell rowSpan={2}/>
             <TableCell rowSpan={2}/>
-            <TableCell rowSpan={2}/>
-            <TableCell rowSpan={2}/>
+            <TableCell rowSpan={2}>{t('Average')}</TableCell>
+            <TableCell rowSpan={2}>{average_v}</TableCell>
             <TableCell rowSpan={2}>{t('Total')}</TableCell>
             <TableCell align="center">{average ? average : 0}%</TableCell>
           </TableRow>

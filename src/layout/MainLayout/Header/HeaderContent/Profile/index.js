@@ -13,10 +13,8 @@ import i18n from 'i18n/index';
 // assets
 import { LogoutOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
-
 // tab panel wrapper
 function TabPanel({ children, value, index, ...other }) {
-  
   return (
     <div role="tabpanel" hidden={value !== index} id={`profile-tabpanel-${index}`} aria-labelledby={`profile-tab-${index}`} {...other}>
       {value === index && children}
@@ -76,7 +74,7 @@ const Profile = ({ auth: { isAuthenticated }, logout }) => {
         onClick={logout}
       >
         <LogoutOutlined />
-        &nbsp;&nbsp;&nbsp;&nbsp;LOGOUT
+        &nbsp;&nbsp;&nbsp;&nbsp;{t('Logout')}
       </ButtonBase>
     </Box>
   );
