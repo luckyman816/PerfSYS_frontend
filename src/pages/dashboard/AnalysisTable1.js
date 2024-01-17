@@ -97,7 +97,7 @@ const AnalysisTable1 = (props) => {
           ) : (
             <h4 style={{ fontFamily: 'serif', color: 'rgb(150 150 150)' }}>{t('NoStatisticalData')}</h4>
           )}
-          <TableRow>
+          <TableRow style={{backgroundColor: 'rgb(0 170 250)'}}>
             <TableCell rowSpan={2}/>
             <TableCell rowSpan={2}/>
             <TableCell rowSpan={2}/>
